@@ -207,6 +207,33 @@ export interface MaintenanceRecord extends BaseEntity {
   photos: string[]
 }
 
+// ---------- Documentos ----------
+
+export const DOCUMENT_CATEGORIES = [
+  'garantia',
+  'contrato',
+  'seguro',
+  'recibo',
+  'manual',
+  'otro',
+] as const
+export type DocumentCategory = (typeof DOCUMENT_CATEGORIES)[number]
+
+export interface AuraDocument extends BaseEntity {
+  title: string
+  category: DocumentCategory
+  fileName: string
+  /** MIME type del archivo original. */
+  fileType: string
+  /** Tamaño en bytes del archivo original (antes de codificar a base64). */
+  fileSize: number
+  /** Contenido del archivo como data-URL. */
+  fileData: string
+  /** Vencimiento de garantía/contrato/seguro; aparece en el calendario. */
+  expiryDate?: string
+  notes?: string
+}
+
 // ---------- Calendario ----------
 
 export const EVENT_KINDS = ['evento', 'cumpleanos', 'recordatorio'] as const

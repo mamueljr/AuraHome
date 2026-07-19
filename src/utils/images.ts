@@ -1,3 +1,22 @@
+export const MAX_DOCUMENT_BYTES = 5 * 1024 * 1024
+
+/**
+ * Lee un archivo (PDF, imagen, cualquier tipo) como data-URL, sin
+ * comprimir. Rechaza archivos mayores a MAX_DOCUMENT_BYTES.
+ */
+export function readFileAsDataURL(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    if (file.size > MAX_DOCUMENT_BYTES) {
+      reject(new Error('El archivo pesa más de 5 MB. Elige uno más ligero.'))
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = () => reject(new Error('No se pudo leer el archivo.'))
+    reader.readAsDataURL(file)
+  })
+}
+
 const MAX_DIMENSION = 1280
 const JPEG_QUALITY = 0.8
 

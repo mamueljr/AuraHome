@@ -1,5 +1,6 @@
 import Dexie, { type Table } from 'dexie'
 import type {
+  AuraDocument,
   CalendarEvent,
   Contact,
   MaintenanceRecord,
@@ -34,6 +35,7 @@ export class AuraDatabase extends Dexie {
   vehicles!: Table<Vehicle, string>
   vehicleRecords!: Table<VehicleRecord, string>
   plants!: Table<Plant, string>
+  documents!: Table<AuraDocument, string>
 
   constructor() {
     super('aura-home')
@@ -60,6 +62,10 @@ export class AuraDatabase extends Dexie {
       vehicleRecords: 'id, vehicleId, kind, date, nextDate',
       plants: 'id',
     })
+    // v5 (app v0.13): módulo de documentos
+    this.version(5).stores({
+      documents: 'id, category, expiryDate',
+    })
   }
 }
 
@@ -79,5 +85,6 @@ export const BACKUP_TABLES = [
   'vehicles',
   'vehicleRecords',
   'plants',
+  'documents',
 ] as const
 export type BackupTable = (typeof BACKUP_TABLES)[number]

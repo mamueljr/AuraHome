@@ -28,5 +28,6 @@ export const queryKeys = {
   vehicles: ['vehicles'] as const,
   vehicleRecords: ['vehicleRecords'] as const,
   plants: ['plants'] as const,
+  documents: ['documents'] as const,
   dataStats: ['dataStats'] as const,
 }

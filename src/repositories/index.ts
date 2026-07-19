@@ -1,6 +1,7 @@
 import { BaseRepository } from '@/repositories/base.repository'
 import { db } from '@/repositories/db'
 import type {
+  AuraDocument,
   CalendarEvent,
   Contact,
   MaintenanceRecord,
@@ -34,6 +35,7 @@ export const vehicleRecordsRepo = new BaseRepository<VehicleRecord>(
   db.vehicleRecords,
 )
 export const plantsRepo = new BaseRepository<Plant>(db.plants)
+export const documentsRepo = new BaseRepository<AuraDocument>(db.documents)
 
 export { db } from '@/repositories/db'
 export { BaseRepository } from '@/repositories/base.repository'

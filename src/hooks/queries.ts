@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { queryKeys } from '@/config/query-client'
 import {
   contactsRepo,
+  documentsRepo,
   eventsRepo,
   maintenanceRepo,
   petRecordsRepo,
@@ -95,5 +96,12 @@ export function usePlants() {
   return useQuery({
     queryKey: queryKeys.plants,
     queryFn: () => plantsRepo.getAll(),
+  })
+}
+
+export function useDocuments() {
+  return useQuery({
+    queryKey: queryKeys.documents,
+    queryFn: () => documentsRepo.getAll(),
   })
 }
