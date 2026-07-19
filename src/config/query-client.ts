@@ -23,5 +23,10 @@ export const queryKeys = {
   events: ['events'] as const,
   maintenance: ['maintenance'] as const,
   contacts: ['contacts'] as const,
+  pets: ['pets'] as const,
+  petRecords: ['petRecords'] as const,
+  vehicles: ['vehicles'] as const,
+  vehicleRecords: ['vehicleRecords'] as const,
+  plants: ['plants'] as const,
   dataStats: ['dataStats'] as const,
 }

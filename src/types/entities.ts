@@ -115,6 +115,71 @@ export interface Contact extends BaseEntity {
   isEmergency: boolean
 }
 
+// ---------- Mascotas ----------
+
+export const PET_SPECIES = ['perro', 'gato', 'ave', 'otro'] as const
+export type PetSpecies = (typeof PET_SPECIES)[number]
+
+export interface Pet extends BaseEntity {
+  name: string
+  species: PetSpecies
+  breed?: string
+  birthDate?: string
+  notes?: string
+}
+
+export const PET_RECORD_KINDS = ['vacuna', 'veterinario', 'medicamento', 'peso'] as const
+export type PetRecordKind = (typeof PET_RECORD_KINDS)[number]
+
+export interface PetRecord extends BaseEntity {
+  petId: string
+  kind: PetRecordKind
+  title: string
+  date: string
+  /** Solo aplica a kind: 'peso'. */
+  weightKg?: number
+  /** Próxima dosis/cita, aparece en el calendario. */
+  nextDate?: string
+  notes?: string
+}
+
+// ---------- Vehículos ----------
+
+export const VEHICLE_RECORD_KINDS = [
+  'servicio',
+  'gasolina',
+  'seguro',
+  'tenencia',
+  'verificacion',
+] as const
+export type VehicleRecordKind = (typeof VEHICLE_RECORD_KINDS)[number]
+
+export interface Vehicle extends BaseEntity {
+  name: string
+  plate?: string
+  notes?: string
+}
+
+export interface VehicleRecord extends BaseEntity {
+  vehicleId: string
+  kind: VehicleRecordKind
+  date: string
+  cost?: number
+  nextDate?: string
+  notes?: string
+}
+
+// ---------- Plantas ----------
+
+export interface Plant extends BaseEntity {
+  name: string
+  location?: string
+  wateringFrequencyDays: number
+  lastWateredDate?: string
+  notes?: string
+  photos: string[]
+}
+
 // ---------- Mantenimiento ----------
 
 export const MAINTENANCE_AREAS = [

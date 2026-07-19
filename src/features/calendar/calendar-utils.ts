@@ -1,9 +1,13 @@
 import { nextOccurrence, parseLocalDate, toDateOnly } from '@/utils/dates'
+import { nextWateringDate } from '@/features/plants/plant-utils'
 import type {
   CalendarEvent,
   MaintenanceRecord,
+  PetRecord,
+  Plant,
   Service,
   TaskItem,
+  VehicleRecord,
 } from '@/types/entities'
 
 /** Tipo unificado de todo lo que aparece en el calendario. */
@@ -14,6 +18,9 @@ export type AgendaKind =
   | 'servicio'
   | 'tarea'
   | 'mantenimiento'
+  | 'mascota'
+  | 'vehiculo'
+  | 'planta'
 
 export interface AgendaItem {
   key: string
@@ -37,6 +44,9 @@ export const AGENDA_KIND_META: Record<
   servicio: { label: 'Pago de servicio', dotClass: 'bg-sky-500' },
   tarea: { label: 'Tarea', dotClass: 'bg-emerald-500' },
   mantenimiento: { label: 'Mantenimiento', dotClass: 'bg-orange-500' },
+  mascota: { label: 'Mascota', dotClass: 'bg-pink-500' },
+  vehiculo: { label: 'Vehículo', dotClass: 'bg-cyan-500' },
+  planta: { label: 'Planta', dotClass: 'bg-lime-500' },
 }
 
 function extractTime(iso: string): string | undefined {
@@ -63,6 +73,9 @@ export function buildAgenda(
   start: Date,
   end: Date,
   maintenance: MaintenanceRecord[] = [],
+  petRecords: PetRecord[] = [],
+  vehicleRecords: VehicleRecord[] = [],
+  plants: Plant[] = [],
 ): Map<string, AgendaItem[]> {
   const map = new Map<string, AgendaItem[]>()
   const startKey = toDateOnly(start)
@@ -154,6 +167,43 @@ export function buildAgenda(
       title: record.title,
       subtitle: 'Mantenimiento programado',
       dateOnly: record.nextDate,
+    })
+  }
+
+  for (const record of petRecords) {
+    if (!record.nextDate || !inRange(record.nextDate)) continue
+    push(map, {
+      key: `${record.id}:next`,
+      sourceId: record.id,
+      kind: 'mascota',
+      title: record.title,
+      subtitle: 'Recordatorio de mascota',
+      dateOnly: record.nextDate,
+    })
+  }
+
+  for (const record of vehicleRecords) {
+    if (!record.nextDate || !inRange(record.nextDate)) continue
+    push(map, {
+      key: `${record.id}:next`,
+      sourceId: record.id,
+      kind: 'vehiculo',
+      title: record.kind,
+      subtitle: 'Recordatorio de vehículo',
+      dateOnly: record.nextDate,
+    })
+  }
+
+  for (const plant of plants) {
+    const next = nextWateringDate(plant)
+    if (!next || !inRange(next)) continue
+    push(map, {
+      key: `${plant.id}:${next}`,
+      sourceId: plant.id,
+      kind: 'planta',
+      title: plant.name,
+      subtitle: 'Regar planta',
+      dateOnly: next,
     })
   }
 

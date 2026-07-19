@@ -3,10 +3,15 @@ import type {
   CalendarEvent,
   Contact,
   MaintenanceRecord,
+  Pet,
+  PetRecord,
+  Plant,
   Service,
   ServicePayment,
   ShoppingItem,
   TaskItem,
+  Vehicle,
+  VehicleRecord,
 } from '@/types/entities'
 
 /**
@@ -24,6 +29,11 @@ export class AuraDatabase extends Dexie {
   events!: Table<CalendarEvent, string>
   maintenance!: Table<MaintenanceRecord, string>
   contacts!: Table<Contact, string>
+  pets!: Table<Pet, string>
+  petRecords!: Table<PetRecord, string>
+  vehicles!: Table<Vehicle, string>
+  vehicleRecords!: Table<VehicleRecord, string>
+  plants!: Table<Plant, string>
 
   constructor() {
     super('aura-home')
@@ -42,6 +52,14 @@ export class AuraDatabase extends Dexie {
     this.version(3).stores({
       contacts: 'id, category, isEmergency',
     })
+    // v4 (app v0.12): mascotas, vehículos y plantas
+    this.version(4).stores({
+      pets: 'id, species',
+      petRecords: 'id, petId, kind, date, nextDate',
+      vehicles: 'id',
+      vehicleRecords: 'id, vehicleId, kind, date, nextDate',
+      plants: 'id',
+    })
   }
 }
 
@@ -56,5 +74,10 @@ export const BACKUP_TABLES = [
   'events',
   'maintenance',
   'contacts',
+  'pets',
+  'petRecords',
+  'vehicles',
+  'vehicleRecords',
+  'plants',
 ] as const
 export type BackupTable = (typeof BACKUP_TABLES)[number]

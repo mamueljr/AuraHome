@@ -4,10 +4,15 @@ import {
   contactsRepo,
   eventsRepo,
   maintenanceRepo,
+  petRecordsRepo,
+  petsRepo,
+  plantsRepo,
   servicePaymentsRepo,
   servicesRepo,
   shoppingRepo,
   tasksRepo,
+  vehicleRecordsRepo,
+  vehiclesRepo,
 } from '@/repositories'
 
 /** Hooks de lectura por entidad. Cada mutación futura invalida su queryKey. */
@@ -58,5 +63,37 @@ export function useContacts() {
   return useQuery({
     queryKey: queryKeys.contacts,
     queryFn: () => contactsRepo.getAll(),
+  })
+}
+
+export function usePets() {
+  return useQuery({ queryKey: queryKeys.pets, queryFn: () => petsRepo.getAll() })
+}
+
+export function usePetRecords() {
+  return useQuery({
+    queryKey: queryKeys.petRecords,
+    queryFn: () => petRecordsRepo.getAll(),
+  })
+}
+
+export function useVehicles() {
+  return useQuery({
+    queryKey: queryKeys.vehicles,
+    queryFn: () => vehiclesRepo.getAll(),
+  })
+}
+
+export function useVehicleRecords() {
+  return useQuery({
+    queryKey: queryKeys.vehicleRecords,
+    queryFn: () => vehicleRecordsRepo.getAll(),
+  })
+}
+
+export function usePlants() {
+  return useQuery({
+    queryKey: queryKeys.plants,
+    queryFn: () => plantsRepo.getAll(),
   })
 }

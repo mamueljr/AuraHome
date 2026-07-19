@@ -9,6 +9,9 @@ import { ShoppingPage } from '@/features/shopping/ShoppingPage'
 import { TasksPage } from '@/features/tasks/TasksPage'
 import { ContactsPage } from '@/features/contacts/ContactsPage'
 import { MaintenancePage } from '@/features/maintenance/MaintenancePage'
+import { PetsPage } from '@/features/pets/PetsPage'
+import { VehiclesPage } from '@/features/vehicles/VehiclesPage'
+import { PlantsPage } from '@/features/plants/PlantsPage'
 import { DesignShowcasePage } from '@/pages/DesignShowcasePage'
 import { ModulePlaceholderPage } from '@/pages/ModulePlaceholderPage'
 import { ModulesPage } from '@/pages/ModulesPage'
@@ -30,6 +33,9 @@ export function App() {
           <Route path="/compras" element={<ShoppingPage />} />
           <Route path="/mantenimiento" element={<MaintenancePage />} />
           <Route path="/contactos" element={<ContactsPage />} />
+          <Route path="/mascotas" element={<PetsPage />} />
+          <Route path="/vehiculos" element={<VehiclesPage />} />
+          <Route path="/plantas" element={<PlantsPage />} />
           {MODULES.filter(
             (m) =>
               ![
@@ -39,6 +45,9 @@ export function App() {
                 'compras',
                 'mantenimiento',
                 'contactos',
+                'mascotas',
+                'vehiculos',
+                'plantas',
               ].includes(m.id),
           ).map((m) => (
             <Route
