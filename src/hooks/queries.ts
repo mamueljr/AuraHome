@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { queryKeys } from '@/config/query-client'
 import {
+  contactsRepo,
   eventsRepo,
   maintenanceRepo,
   servicePaymentsRepo,
@@ -50,5 +51,12 @@ export function useMaintenance() {
   return useQuery({
     queryKey: queryKeys.maintenance,
     queryFn: () => maintenanceRepo.getAll(),
+  })
+}
+
+export function useContacts() {
+  return useQuery({
+    queryKey: queryKeys.contacts,
+    queryFn: () => contactsRepo.getAll(),
   })
 }

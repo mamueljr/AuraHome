@@ -92,6 +92,29 @@ export interface ShoppingItem extends BaseEntity {
   completedAt?: string
 }
 
+// ---------- Contactos ----------
+
+export const CONTACT_CATEGORIES = [
+  'familia',
+  'emergencia',
+  'salud',
+  'servicios_hogar',
+  'otro',
+] as const
+export type ContactCategory = (typeof CONTACT_CATEGORIES)[number]
+
+export interface Contact extends BaseEntity {
+  name: string
+  category: ContactCategory
+  /** Rol u oficio: "Plomero", "Doctora", "Hermana"… */
+  role?: string
+  phone?: string
+  email?: string
+  notes?: string
+  /** Aparece siempre arriba, en la sección de emergencias. */
+  isEmergency: boolean
+}
+
 // ---------- Mantenimiento ----------
 
 export const MAINTENANCE_AREAS = [

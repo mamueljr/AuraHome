@@ -27,7 +27,7 @@ Cada versión es funcional y desplegable. No se avanza a la siguiente sin que la
 ## Fase 3 — Módulos del hogar
 
 - **v0.10 — Mantenimiento** ✅ (casa, auto, electrodomésticos, fotos, costos)
-- **v0.11 — Contactos y emergencias**
+- **v0.11 — Contactos y emergencias** ✅
 - **v0.12 — Mascotas / Vehículos / Plantas**
 - **v0.13 — Documentos** (PDF, fotos, garantías; base para Aura Vault)
 

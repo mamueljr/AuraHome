@@ -7,6 +7,7 @@ import { DashboardPage } from '@/features/dashboard/DashboardPage'
 import { ServicesPage } from '@/features/services/ServicesPage'
 import { ShoppingPage } from '@/features/shopping/ShoppingPage'
 import { TasksPage } from '@/features/tasks/TasksPage'
+import { ContactsPage } from '@/features/contacts/ContactsPage'
 import { MaintenancePage } from '@/features/maintenance/MaintenancePage'
 import { DesignShowcasePage } from '@/pages/DesignShowcasePage'
 import { ModulePlaceholderPage } from '@/pages/ModulePlaceholderPage'
@@ -28,6 +29,7 @@ export function App() {
           <Route path="/calendario" element={<CalendarPage />} />
           <Route path="/compras" element={<ShoppingPage />} />
           <Route path="/mantenimiento" element={<MaintenancePage />} />
+          <Route path="/contactos" element={<ContactsPage />} />
           {MODULES.filter(
             (m) =>
               ![
@@ -36,6 +38,7 @@ export function App() {
                 'calendario',
                 'compras',
                 'mantenimiento',
+                'contactos',
               ].includes(m.id),
           ).map((m) => (
             <Route

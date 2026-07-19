@@ -22,5 +22,6 @@ export const queryKeys = {
   shopping: ['shopping'] as const,
   events: ['events'] as const,
   maintenance: ['maintenance'] as const,
+  contacts: ['contacts'] as const,
   dataStats: ['dataStats'] as const,
 }
