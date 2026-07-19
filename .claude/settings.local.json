@@ -23,7 +23,9 @@
       "Bash(curl -s -o /dev/null -w '%{http_code}' http://localhost:4173/AuraHome/)",
       "Bash(git commit -m 'v0.2: Aura Design System *)",
       "Bash(git commit -m 'v0.3: navegación y shell de la app *)",
-      "Bash(git commit -m 'v0.4: capa de datos *)"
+      "Bash(git commit -m 'v0.4: capa de datos *)",
+      "Bash(sed -i 's/- \\\\*\\\\*v0.2 — Aura Design System\\\\*\\\\*/- **v0.2 — Aura Design System** ✅/; s/- \\\\*\\\\*v0.3 — Navegación y shell de la app\\\\*\\\\*/- **v0.3 — Navegación y shell de la app** ✅/; s/- \\\\*\\\\*v0.4 — Capa de datos\\\\*\\\\*/- **v0.4 — Capa de datos** ✅/' ROADMAP.md)",
+      "Bash(git commit *)"
     ]
   }
 }

@@ -2,8 +2,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { useApplyTheme } from '@/hooks/useApplyTheme'
 import { AppLayout } from '@/layouts/AppLayout'
 import { MODULES } from '@/config/navigation'
+import { DashboardPage } from '@/features/dashboard/DashboardPage'
 import { DesignShowcasePage } from '@/pages/DesignShowcasePage'
-import { HomePage } from '@/pages/HomePage'
 import { ModulePlaceholderPage } from '@/pages/ModulePlaceholderPage'
 import { ModulesPage } from '@/pages/ModulesPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
@@ -16,7 +16,7 @@ export function App() {
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route element={<AppLayout />}>
-          <Route index element={<HomePage />} />
+          <Route index element={<DashboardPage />} />
           <Route path="/modulos" element={<ModulesPage />} />
           {MODULES.map((m) => (
             <Route
