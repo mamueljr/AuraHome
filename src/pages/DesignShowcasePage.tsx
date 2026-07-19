@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { Bell, CalendarDays, Home, Receipt, Sparkles } from 'lucide-react'
-import { ThemeToggle } from '@/components/ThemeToggle'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -78,21 +77,10 @@ function Section({
  */
 export function DesignShowcasePage() {
   return (
-    <div className="min-h-dvh">
-      <header className="glass sticky top-0 z-10 flex items-center justify-between px-6 py-3">
-        <div className="flex items-center gap-3">
-          <div className="size-8 rounded-lg bg-gradient-to-br from-aura-400 to-aura-700" />
-          <div className="leading-tight">
-            <p className="font-heading text-sm font-semibold">Aura Design</p>
-            <p className="text-xs text-muted-foreground">
-              Showcase · v{APP_CONFIG.version}
-            </p>
-          </div>
-        </div>
-        <ThemeToggle />
-      </header>
-
-      <main className="mx-auto flex max-w-3xl flex-col gap-12 px-6 py-10 pb-24">
+    <div className="mx-auto flex max-w-3xl flex-col gap-12">
+      <p className="text-sm text-muted-foreground">
+        Sistema de diseño del ecosistema Aura · v{APP_CONFIG.version}
+      </p>
         <Section title="Paleta Aura">
           <div className="flex overflow-hidden rounded-xl border">
             {AURA_SHADES.map(([name, bgClass]) => (
@@ -232,7 +220,6 @@ export function DesignShowcasePage() {
             </TabsContent>
           </Tabs>
         </Section>
-      </main>
     </div>
   )
 }

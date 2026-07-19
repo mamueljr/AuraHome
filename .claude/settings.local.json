@@ -21,7 +21,8 @@
       "Bash(cp -r ./@/components/ui/. src/components/ui/)",
       "Bash(cp -r ./@/lib/. src/lib/)",
       "Bash(curl -s -o /dev/null -w '%{http_code}' http://localhost:4173/AuraHome/)",
-      "Bash(git commit -m 'v0.2: Aura Design System *)"
+      "Bash(git commit -m 'v0.2: Aura Design System *)",
+      "Bash(git commit -m 'v0.3: navegación y shell de la app *)"
     ]
   }
 }
