@@ -7,6 +7,7 @@ import { HomePage } from '@/pages/HomePage'
 import { ModulePlaceholderPage } from '@/pages/ModulePlaceholderPage'
 import { ModulesPage } from '@/pages/ModulesPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
+import { SettingsPage } from '@/pages/SettingsPage'
 
 export function App() {
   useApplyTheme()
@@ -24,6 +25,7 @@ export function App() {
               element={<ModulePlaceholderPage module={m} />}
             />
           ))}
+          <Route path="/ajustes" element={<SettingsPage />} />
           <Route path="/design" element={<DesignShowcasePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>

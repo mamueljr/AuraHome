@@ -11,6 +11,7 @@ function usePageTitle(pathname: string): string {
   if (pathname === '/') return APP_CONFIG.name
   if (pathname === NAV_MODULES.path) return NAV_MODULES.label
   if (pathname === '/design') return 'Aura Design'
+  if (pathname === '/ajustes') return 'Ajustes'
   return findModuleByPath(pathname)?.label ?? APP_CONFIG.name
 }
 

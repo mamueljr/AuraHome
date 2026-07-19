@@ -7,13 +7,13 @@ Cada versión es funcional y desplegable. No se avanza a la siguiente sin que la
 - **v0.1 — Configuración del proyecto** ✅
   Vite + React 19 + TypeScript estricto, TailwindCSS 4, estructura Clean Architecture, PWA base (manifest, service worker, iconos), deploy manual a GitHub Pages con `npm run deploy` (gh-pages).
 
-- **v0.2 — Aura Design System**
+- **v0.2 — Aura Design System** ✅
   Tokens completos (color, tipografía, espaciado, sombras, radios), tema claro/oscuro con persistencia, componentes base (Button, Card, Input, Badge, Sheet, Dialog…) sobre Shadcn UI, glassmorphism ligero, microanimaciones con Framer Motion, página interna de showcase.
 
-- **v0.3 — Navegación y shell de la app**
+- **v0.3 — Navegación y shell de la app** ✅
   React Router, layout principal (barra inferior en móvil, sidebar en desktop), transiciones entre páginas, páginas vacías de cada módulo, estado global con Zustand.
 
-- **v0.4 — Capa de datos**
+- **v0.4 — Capa de datos** ✅
   Dexie + IndexedDB, patrón Repository, TanStack Query como capa de acceso, tipos del dominio (Payment, Task, Event, Service…), migraciones de esquema, export/import de datos.
 
 ## Fase 2 — Módulos núcleo
