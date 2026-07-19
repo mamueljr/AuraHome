@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { useApplyTheme } from '@/hooks/useApplyTheme'
 import { AppLayout } from '@/layouts/AppLayout'
 import { MODULES } from '@/config/navigation'
+import { CalendarPage } from '@/features/calendar/CalendarPage'
 import { DashboardPage } from '@/features/dashboard/DashboardPage'
 import { ServicesPage } from '@/features/services/ServicesPage'
 import { TasksPage } from '@/features/tasks/TasksPage'
@@ -22,7 +23,10 @@ export function App() {
           <Route path="/modulos" element={<ModulesPage />} />
           <Route path="/servicios" element={<ServicesPage />} />
           <Route path="/tareas" element={<TasksPage />} />
-          {MODULES.filter((m) => !['servicios', 'tareas'].includes(m.id)).map((m) => (
+          <Route path="/calendario" element={<CalendarPage />} />
+          {MODULES.filter(
+            (m) => !['servicios', 'tareas', 'calendario'].includes(m.id),
+          ).map((m) => (
             <Route
               key={m.id}
               path={m.path}
