@@ -1,21 +1,20 @@
 /* ============================================================
-   AURA DESIGN — Design tokens v0.1
+   AURA DESIGN — Design tokens v0.2
    Identidad visual propia del ecosistema Aura.
-   Tema claro por defecto; tema oscuro vía [data-theme="dark"].
+
+   Capas:
+   1. Primitivas (@theme): paleta aura, fuentes, radios.
+   2. Semánticas (:root / .dark): variables que consumen los
+      componentes (convención shadcn: background, primary…).
+   El tema oscuro se activa con la clase `dark` en <html>.
    ============================================================ */
 
 @theme {
   /* Tipografía */
-  --font-sans: 'Inter Variable', 'Inter', system-ui, sans-serif;
-  --font-display: 'Sora Variable', 'Sora', var(--font-sans);
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-heading: 'Sora Variable', var(--font-sans);
 
-  /* Radios — Aura usa esquinas generosas, estilo "soft premium" */
-  --radius-aura-sm: 0.625rem;
-  --radius-aura: 1rem;
-  --radius-aura-lg: 1.5rem;
-  --radius-aura-xl: 2rem;
-
-  /* Paleta base — violeta aura + neutros cálidos */
+  /* Paleta primitiva — violeta aura en OKLCH */
   --color-aura-50: oklch(0.97 0.015 295);
   --color-aura-100: oklch(0.94 0.03 295);
   --color-aura-200: oklch(0.88 0.06 295);
@@ -26,39 +25,82 @@
   --color-aura-700: oklch(0.46 0.18 295);
   --color-aura-800: oklch(0.38 0.14 295);
   --color-aura-900: oklch(0.3 0.1 295);
-
-  /* Tokens semánticos (referencian variables de tema claro/oscuro) */
-  --color-surface: var(--aura-surface);
-  --color-surface-elevated: var(--aura-surface-elevated);
-  --color-surface-glass: var(--aura-surface-glass);
-  --color-ink: var(--aura-ink);
-  --color-ink-muted: var(--aura-ink-muted);
-  --color-line: var(--aura-line);
-  --color-accent: var(--aura-accent);
-  --color-accent-soft: var(--aura-accent-soft);
 }
 
 :root {
-  /* Tema claro */
-  --aura-surface: oklch(0.985 0.005 295);
-  --aura-surface-elevated: oklch(1 0 0);
-  --aura-surface-glass: oklch(1 0 0 / 0.65);
-  --aura-ink: oklch(0.22 0.02 295);
-  --aura-ink-muted: oklch(0.52 0.02 295);
-  --aura-line: oklch(0.9 0.01 295);
-  --aura-accent: oklch(0.54 0.2 295);
-  --aura-accent-soft: oklch(0.94 0.03 295);
+  /* ---------- Tema claro ---------- */
+  --background: oklch(0.982 0.005 295);
+  --foreground: oklch(0.22 0.02 295);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.02 295);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.02 295);
+  --primary: oklch(0.54 0.2 295);
+  --primary-foreground: oklch(0.985 0.005 295);
+  --secondary: oklch(0.94 0.015 295);
+  --secondary-foreground: oklch(0.32 0.06 295);
+  --muted: oklch(0.945 0.01 295);
+  --muted-foreground: oklch(0.52 0.02 295);
+  --accent: oklch(0.94 0.03 295);
+  --accent-foreground: oklch(0.38 0.14 295);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.905 0.012 295);
+  --input: oklch(0.905 0.012 295);
+  --ring: oklch(0.71 0.14 295);
+  --chart-1: oklch(0.62 0.18 295);
+  --chart-2: oklch(0.65 0.15 240);
+  --chart-3: oklch(0.7 0.14 180);
+  --chart-4: oklch(0.75 0.14 85);
+  --chart-5: oklch(0.65 0.18 25);
+  --radius: 1rem;
+  --sidebar: oklch(0.965 0.008 295);
+  --sidebar-foreground: oklch(0.22 0.02 295);
+  --sidebar-primary: oklch(0.54 0.2 295);
+  --sidebar-primary-foreground: oklch(0.985 0.005 295);
+  --sidebar-accent: oklch(0.94 0.03 295);
+  --sidebar-accent-foreground: oklch(0.38 0.14 295);
+  --sidebar-border: oklch(0.905 0.012 295);
+  --sidebar-ring: oklch(0.71 0.14 295);
+
+  /* Superficie translúcida para glassmorphism */
+  --glass: oklch(1 0 0 / 0.62);
   color-scheme: light;
 }
 
-[data-theme='dark'] {
-  --aura-surface: oklch(0.17 0.015 295);
-  --aura-surface-elevated: oklch(0.22 0.02 295);
-  --aura-surface-glass: oklch(0.22 0.02 295 / 0.6);
-  --aura-ink: oklch(0.95 0.01 295);
-  --aura-ink-muted: oklch(0.68 0.02 295);
-  --aura-line: oklch(0.3 0.02 295);
-  --aura-accent: oklch(0.71 0.14 295);
-  --aura-accent-soft: oklch(0.3 0.06 295);
+.dark {
+  /* ---------- Tema oscuro ---------- */
+  --background: oklch(0.165 0.015 295);
+  --foreground: oklch(0.95 0.01 295);
+  --card: oklch(0.215 0.02 295);
+  --card-foreground: oklch(0.95 0.01 295);
+  --popover: oklch(0.215 0.02 295);
+  --popover-foreground: oklch(0.95 0.01 295);
+  --primary: oklch(0.71 0.14 295);
+  --primary-foreground: oklch(0.17 0.03 295);
+  --secondary: oklch(0.27 0.03 295);
+  --secondary-foreground: oklch(0.9 0.02 295);
+  --muted: oklch(0.26 0.02 295);
+  --muted-foreground: oklch(0.68 0.02 295);
+  --accent: oklch(0.3 0.06 295);
+  --accent-foreground: oklch(0.88 0.06 295);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.62 0.18 295);
+  --chart-1: oklch(0.71 0.14 295);
+  --chart-2: oklch(0.7 0.13 240);
+  --chart-3: oklch(0.74 0.12 180);
+  --chart-4: oklch(0.78 0.12 85);
+  --chart-5: oklch(0.7 0.16 25);
+  --sidebar: oklch(0.19 0.018 295);
+  --sidebar-foreground: oklch(0.95 0.01 295);
+  --sidebar-primary: oklch(0.71 0.14 295);
+  --sidebar-primary-foreground: oklch(0.17 0.03 295);
+  --sidebar-accent: oklch(0.3 0.06 295);
+  --sidebar-accent-foreground: oklch(0.88 0.06 295);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.62 0.18 295);
+
+  --glass: oklch(0.215 0.02 295 / 0.6);
   color-scheme: dark;
 }

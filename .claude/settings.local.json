@@ -12,7 +12,16 @@
       "Bash(convert -background '#0b0b12' -density 300 favicon.svg -resize 400x400 -gravity center -extent 512x512 icon-maskable-512.png)",
       "Bash(npm run *)",
       "Bash(git add *)",
-      "Bash(git commit -m 'v0.1: configuración del proyecto *)"
+      "Bash(git commit -m 'v0.1: configuración del proyecto *)",
+      "Bash(npx shadcn@latest init --yes --base-color neutral)",
+      "Bash(npx shadcn@latest init --help)",
+      "Bash(npx shadcn@latest init -b radix -y)",
+      "Bash(npx shadcn@latest add button card input label badge dialog sheet switch tabs separator skeleton textarea select checkbox dropdown-menu)",
+      "Bash(npm uninstall *)",
+      "Bash(cp -r ./@/components/ui/. src/components/ui/)",
+      "Bash(cp -r ./@/lib/. src/lib/)",
+      "Bash(curl -s -o /dev/null -w '%{http_code}' http://localhost:4173/AuraHome/)",
+      "Bash(git commit -m 'v0.2: Aura Design System *)"
     ]
   }
 }
