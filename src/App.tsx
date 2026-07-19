@@ -4,6 +4,7 @@ import { AppLayout } from '@/layouts/AppLayout'
 import { MODULES } from '@/config/navigation'
 import { DashboardPage } from '@/features/dashboard/DashboardPage'
 import { ServicesPage } from '@/features/services/ServicesPage'
+import { TasksPage } from '@/features/tasks/TasksPage'
 import { DesignShowcasePage } from '@/pages/DesignShowcasePage'
 import { ModulePlaceholderPage } from '@/pages/ModulePlaceholderPage'
 import { ModulesPage } from '@/pages/ModulesPage'
@@ -20,7 +21,8 @@ export function App() {
           <Route index element={<DashboardPage />} />
           <Route path="/modulos" element={<ModulesPage />} />
           <Route path="/servicios" element={<ServicesPage />} />
-          {MODULES.filter((m) => m.id !== 'servicios').map((m) => (
+          <Route path="/tareas" element={<TasksPage />} />
+          {MODULES.filter((m) => !['servicios', 'tareas'].includes(m.id)).map((m) => (
             <Route
               key={m.id}
               path={m.path}

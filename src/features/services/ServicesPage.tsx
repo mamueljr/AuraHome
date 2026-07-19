@@ -187,7 +187,7 @@ export function ServicesPage() {
               message="Sin servicios todavía. Agrega el primero: luz, agua, internet…"
             />
           ) : (
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence initial={false}>
               {active.map((s) => (
                 <ServiceCard
                   key={s.id}
@@ -243,7 +243,7 @@ export function ServicesPage() {
         </TabsContent>
 
         <TabsContent value="archivados" className="space-y-3 pt-3">
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence initial={false}>
             {archived.map((s) => (
               <ServiceCard
                 key={s.id}
