@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+@import './theme/aura.css';
+
+body {
+  @apply bg-surface text-ink antialiased;
+  font-family: var(--font-sans);
+}

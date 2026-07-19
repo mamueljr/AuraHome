@@ -1,0 +1,64 @@
+/* ============================================================
+   AURA DESIGN — Design tokens v0.1
+   Identidad visual propia del ecosistema Aura.
+   Tema claro por defecto; tema oscuro vía [data-theme="dark"].
+   ============================================================ */
+
+@theme {
+  /* Tipografía */
+  --font-sans: 'Inter Variable', 'Inter', system-ui, sans-serif;
+  --font-display: 'Sora Variable', 'Sora', var(--font-sans);
+
+  /* Radios — Aura usa esquinas generosas, estilo "soft premium" */
+  --radius-aura-sm: 0.625rem;
+  --radius-aura: 1rem;
+  --radius-aura-lg: 1.5rem;
+  --radius-aura-xl: 2rem;
+
+  /* Paleta base — violeta aura + neutros cálidos */
+  --color-aura-50: oklch(0.97 0.015 295);
+  --color-aura-100: oklch(0.94 0.03 295);
+  --color-aura-200: oklch(0.88 0.06 295);
+  --color-aura-300: oklch(0.8 0.1 295);
+  --color-aura-400: oklch(0.71 0.14 295);
+  --color-aura-500: oklch(0.62 0.18 295);
+  --color-aura-600: oklch(0.54 0.2 295);
+  --color-aura-700: oklch(0.46 0.18 295);
+  --color-aura-800: oklch(0.38 0.14 295);
+  --color-aura-900: oklch(0.3 0.1 295);
+
+  /* Tokens semánticos (referencian variables de tema claro/oscuro) */
+  --color-surface: var(--aura-surface);
+  --color-surface-elevated: var(--aura-surface-elevated);
+  --color-surface-glass: var(--aura-surface-glass);
+  --color-ink: var(--aura-ink);
+  --color-ink-muted: var(--aura-ink-muted);
+  --color-line: var(--aura-line);
+  --color-accent: var(--aura-accent);
+  --color-accent-soft: var(--aura-accent-soft);
+}
+
+:root {
+  /* Tema claro */
+  --aura-surface: oklch(0.985 0.005 295);
+  --aura-surface-elevated: oklch(1 0 0);
+  --aura-surface-glass: oklch(1 0 0 / 0.65);
+  --aura-ink: oklch(0.22 0.02 295);
+  --aura-ink-muted: oklch(0.52 0.02 295);
+  --aura-line: oklch(0.9 0.01 295);
+  --aura-accent: oklch(0.54 0.2 295);
+  --aura-accent-soft: oklch(0.94 0.03 295);
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --aura-surface: oklch(0.17 0.015 295);
+  --aura-surface-elevated: oklch(0.22 0.02 295);
+  --aura-surface-glass: oklch(0.22 0.02 295 / 0.6);
+  --aura-ink: oklch(0.95 0.01 295);
+  --aura-ink-muted: oklch(0.68 0.02 295);
+  --aura-line: oklch(0.3 0.02 295);
+  --aura-accent: oklch(0.71 0.14 295);
+  --aura-accent-soft: oklch(0.3 0.06 295);
+  color-scheme: dark;
+}

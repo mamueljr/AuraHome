@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /home/emmanuel/Documentos/GitHub/AuraHome log --oneline)",
+      "Bash(npm --version)",
+      "Bash(npm create *)",
+      "Bash(npm pkg *)",
+      "Bash(npm install *)",
+      "Bash(command -v convert magick rsvg-convert inkscape)",
+      "Bash(convert -background none -density 300 favicon.svg -resize 192x192 icon-192.png)",
+      "Bash(convert -background none -density 300 favicon.svg -resize 512x512 icon-512.png)",
+      "Bash(convert -background '#0b0b12' -density 300 favicon.svg -resize 400x400 -gravity center -extent 512x512 icon-maskable-512.png)",
+      "Bash(npm run *)"
+    ]
+  }
+}
