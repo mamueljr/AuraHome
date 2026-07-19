@@ -2,6 +2,7 @@ import { BaseRepository } from '@/repositories/base.repository'
 import { db } from '@/repositories/db'
 import type {
   CalendarEvent,
+  MaintenanceRecord,
   Service,
   ServicePayment,
   ShoppingItem,
@@ -16,6 +17,9 @@ export const servicePaymentsRepo = new BaseRepository<ServicePayment>(
 export const tasksRepo = new BaseRepository<TaskItem>(db.tasks)
 export const shoppingRepo = new BaseRepository<ShoppingItem>(db.shoppingItems)
 export const eventsRepo = new BaseRepository<CalendarEvent>(db.events)
+export const maintenanceRepo = new BaseRepository<MaintenanceRecord>(
+  db.maintenance,
+)
 
 export { db } from '@/repositories/db'
 export { BaseRepository } from '@/repositories/base.repository'

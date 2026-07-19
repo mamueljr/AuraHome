@@ -92,6 +92,33 @@ export interface ShoppingItem extends BaseEntity {
   completedAt?: string
 }
 
+// ---------- Mantenimiento ----------
+
+export const MAINTENANCE_AREAS = [
+  'casa',
+  'vehiculo',
+  'electrodomestico',
+  'clima',
+  'boiler',
+  'jardin',
+  'filtros',
+  'otro',
+] as const
+export type MaintenanceArea = (typeof MAINTENANCE_AREAS)[number]
+
+export interface MaintenanceRecord extends BaseEntity {
+  title: string
+  area: MaintenanceArea
+  /** Fecha en que se realizó (ISO, solo fecha). */
+  date: string
+  cost?: number
+  notes?: string
+  /** Próximo mantenimiento sugerido (aparece en el calendario). */
+  nextDate?: string
+  /** Fotografías como data-URL JPEG comprimidas. */
+  photos: string[]
+}
+
 // ---------- Calendario ----------
 
 export const EVENT_KINDS = ['evento', 'cumpleanos', 'recordatorio'] as const

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { EmptyState } from '@/components/EmptyState'
-import { useEvents, useServices, useTasks } from '@/hooks/queries'
+import { useEvents, useMaintenance, useServices, useTasks } from '@/hooks/queries'
 import { cn } from '@/lib/utils'
 import { parseLocalDate, toDateOnly } from '@/utils/dates'
 import type { CalendarEvent } from '@/types/entities'
@@ -89,6 +89,7 @@ export function CalendarPage() {
   const { data: events = [] } = useEvents()
   const { data: services = [] } = useServices()
   const { data: tasks = [] } = useTasks()
+  const { data: maintenance = [] } = useMaintenance()
   const { createEvent, updateEvent, removeEvent } = useEventMutations()
 
   const today = toDateOnly(new Date())
@@ -121,8 +122,8 @@ export function CalendarPage() {
     const start = weekDays[0] && weekDays[0] < gridStart ? weekDays[0] : gridStart
     const lastWeekDay = weekDays[6]
     const end = lastWeekDay && lastWeekDay > gridEnd ? lastWeekDay : gridEnd
-    return buildAgenda(events, services, tasks, start, end)
-  }, [events, services, tasks, weeks, weekDays])
+    return buildAgenda(events, services, tasks, start, end, maintenance)
+  }, [events, services, tasks, maintenance, weeks, weekDays])
 
   function shiftMonth(delta: number) {
     setCursor((c) => new Date(c.getFullYear(), c.getMonth() + delta, 1))

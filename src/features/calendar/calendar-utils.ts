@@ -1,5 +1,10 @@
 import { nextOccurrence, parseLocalDate, toDateOnly } from '@/utils/dates'
-import type { CalendarEvent, Service, TaskItem } from '@/types/entities'
+import type {
+  CalendarEvent,
+  MaintenanceRecord,
+  Service,
+  TaskItem,
+} from '@/types/entities'
 
 /** Tipo unificado de todo lo que aparece en el calendario. */
 export type AgendaKind =
@@ -8,6 +13,7 @@ export type AgendaKind =
   | 'recordatorio'
   | 'servicio'
   | 'tarea'
+  | 'mantenimiento'
 
 export interface AgendaItem {
   key: string
@@ -30,6 +36,7 @@ export const AGENDA_KIND_META: Record<
   recordatorio: { label: 'Recordatorio', dotClass: 'bg-amber-500' },
   servicio: { label: 'Pago de servicio', dotClass: 'bg-sky-500' },
   tarea: { label: 'Tarea', dotClass: 'bg-emerald-500' },
+  mantenimiento: { label: 'Mantenimiento', dotClass: 'bg-orange-500' },
 }
 
 function extractTime(iso: string): string | undefined {
@@ -55,6 +62,7 @@ export function buildAgenda(
   tasks: TaskItem[],
   start: Date,
   end: Date,
+  maintenance: MaintenanceRecord[] = [],
 ): Map<string, AgendaItem[]> {
   const map = new Map<string, AgendaItem[]>()
   const startKey = toDateOnly(start)
@@ -134,6 +142,18 @@ export function buildAgenda(
       title: task.title,
       subtitle: 'Tarea',
       dateOnly,
+    })
+  }
+
+  for (const record of maintenance) {
+    if (!record.nextDate || !inRange(record.nextDate)) continue
+    push(map, {
+      key: `${record.id}:next`,
+      sourceId: record.id,
+      kind: 'mantenimiento',
+      title: record.title,
+      subtitle: 'Mantenimiento programado',
+      dateOnly: record.nextDate,
     })
   }
 
