@@ -5,6 +5,7 @@ import { MODULES } from '@/config/navigation'
 import { CalendarPage } from '@/features/calendar/CalendarPage'
 import { DashboardPage } from '@/features/dashboard/DashboardPage'
 import { ServicesPage } from '@/features/services/ServicesPage'
+import { ShoppingPage } from '@/features/shopping/ShoppingPage'
 import { TasksPage } from '@/features/tasks/TasksPage'
 import { DesignShowcasePage } from '@/pages/DesignShowcasePage'
 import { ModulePlaceholderPage } from '@/pages/ModulePlaceholderPage'
@@ -24,8 +25,10 @@ export function App() {
           <Route path="/servicios" element={<ServicesPage />} />
           <Route path="/tareas" element={<TasksPage />} />
           <Route path="/calendario" element={<CalendarPage />} />
+          <Route path="/compras" element={<ShoppingPage />} />
           {MODULES.filter(
-            (m) => !['servicios', 'tareas', 'calendario'].includes(m.id),
+            (m) =>
+              !['servicios', 'tareas', 'calendario', 'compras'].includes(m.id),
           ).map((m) => (
             <Route
               key={m.id}
