@@ -1,6 +1,29 @@
 /** Utilidades de fechas. Trabajan con ISO (solo fecha o fecha-hora). */
 
+import type { Frequency } from '@/types/entities'
+
 const DAY_MS = 86_400_000
+const DATE_ONLY = /^\d{4}-\d{2}-\d{2}$/
+
+/**
+ * Parsea un ISO como fecha LOCAL. Importante: `new Date('2026-07-21')`
+ * se interpreta como UTC y desplaza un día en zonas horarias negativas.
+ */
+export function parseLocalDate(iso: string): Date {
+  if (DATE_ONLY.test(iso)) {
+    const [year, month, day] = iso.split('-').map(Number)
+    return new Date(year ?? 0, (month ?? 1) - 1, day ?? 1)
+  }
+  return new Date(iso)
+}
+
+/** Serializa una fecha local como ISO de solo fecha (YYYY-MM-DD). */
+export function toDateOnly(date: Date): string {
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const d = String(date.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
 
 /** Normaliza a medianoche local para comparar solo fechas. */
 function atMidnight(date: Date): number {
@@ -9,7 +32,42 @@ function atMidnight(date: Date): number {
 
 /** Días (enteros) desde hoy hasta la fecha dada. Negativo si ya pasó. */
 export function daysUntil(iso: string): number {
-  return Math.round((atMidnight(new Date(iso)) - atMidnight(new Date())) / DAY_MS)
+  return Math.round(
+    (atMidnight(parseLocalDate(iso)) - atMidnight(new Date())) / DAY_MS,
+  )
+}
+
+/**
+ * Siguiente ocurrencia según la frecuencia, o null si es pago único.
+ */
+export function nextOccurrence(iso: string, frequency: Frequency): string | null {
+  const date = parseLocalDate(iso)
+  switch (frequency) {
+    case 'unico':
+      return null
+    case 'semanal':
+      date.setDate(date.getDate() + 7)
+      break
+    case 'quincenal':
+      date.setDate(date.getDate() + 14)
+      break
+    case 'mensual':
+      date.setMonth(date.getMonth() + 1)
+      break
+    case 'bimestral':
+      date.setMonth(date.getMonth() + 2)
+      break
+    case 'trimestral':
+      date.setMonth(date.getMonth() + 3)
+      break
+    case 'semestral':
+      date.setMonth(date.getMonth() + 6)
+      break
+    case 'anual':
+      date.setFullYear(date.getFullYear() + 1)
+      break
+  }
+  return toDateOnly(date)
 }
 
 /** Etiqueta relativa amigable: "Hoy", "Mañana", "En 5 días", "Hace 2 días". */
@@ -34,7 +92,7 @@ export function formatLongDate(date: Date = new Date()): string {
 
 /** ¿La fecha ISO cae en el mes actual? */
 export function isCurrentMonth(iso: string): boolean {
-  const d = new Date(iso)
+  const d = parseLocalDate(iso)
   const now = new Date()
   return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth()
 }

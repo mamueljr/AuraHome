@@ -3,6 +3,7 @@ import { useApplyTheme } from '@/hooks/useApplyTheme'
 import { AppLayout } from '@/layouts/AppLayout'
 import { MODULES } from '@/config/navigation'
 import { DashboardPage } from '@/features/dashboard/DashboardPage'
+import { ServicesPage } from '@/features/services/ServicesPage'
 import { DesignShowcasePage } from '@/pages/DesignShowcasePage'
 import { ModulePlaceholderPage } from '@/pages/ModulePlaceholderPage'
 import { ModulesPage } from '@/pages/ModulesPage'
@@ -18,7 +19,8 @@ export function App() {
         <Route element={<AppLayout />}>
           <Route index element={<DashboardPage />} />
           <Route path="/modulos" element={<ModulesPage />} />
-          {MODULES.map((m) => (
+          <Route path="/servicios" element={<ServicesPage />} />
+          {MODULES.filter((m) => m.id !== 'servicios').map((m) => (
             <Route
               key={m.id}
               path={m.path}

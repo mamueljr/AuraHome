@@ -18,8 +18,8 @@ Cada versión es funcional y desplegable. No se avanza a la siguiente sin que la
 
 ## Fase 2 — Módulos núcleo
 
-- **v0.5 — Dashboard** (resumen, próximos pagos/eventos, actividad reciente)
-- **v0.6 — Servicios y pagos** (registro, frecuencia, historial, recordatorios)
+- **v0.5 — Dashboard** ✅ (resumen, próximos pagos/eventos, accesos rápidos)
+- **v0.6 — Servicios y pagos** ✅ (registro, frecuencia, historial, archivado)
 - **v0.7 — Tareas** (prioridad, subtareas, etiquetas, fechas)
 - **v0.8 — Calendario** (vista mensual/semanal/diaria, agregación de todos los módulos)
 - **v0.9 — Compras** (lista inteligente, categorías, historial)
