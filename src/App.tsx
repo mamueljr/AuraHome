@@ -1,25 +1,61 @@
+import { lazy } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { useApplyTheme } from '@/hooks/useApplyTheme'
 import { AppLayout } from '@/layouts/AppLayout'
 import { MODULES } from '@/config/navigation'
-import { CalendarPage } from '@/features/calendar/CalendarPage'
 import { DashboardPage } from '@/features/dashboard/DashboardPage'
-import { ServicesPage } from '@/features/services/ServicesPage'
-import { ShoppingPage } from '@/features/shopping/ShoppingPage'
-import { TasksPage } from '@/features/tasks/TasksPage'
-import { ContactsPage } from '@/features/contacts/ContactsPage'
-import { MaintenancePage } from '@/features/maintenance/MaintenancePage'
-import { PetsPage } from '@/features/pets/PetsPage'
-import { VehiclesPage } from '@/features/vehicles/VehiclesPage'
-import { PlantsPage } from '@/features/plants/PlantsPage'
-import { DocumentsPage } from '@/features/documents/DocumentsPage'
-import { RoomsPage } from '@/features/rooms/RoomsPage'
-import { StatsPage } from '@/features/stats/StatsPage'
-import { DesignShowcasePage } from '@/pages/DesignShowcasePage'
-import { ModulePlaceholderPage } from '@/pages/ModulePlaceholderPage'
-import { ModulesPage } from '@/pages/ModulesPage'
-import { NotFoundPage } from '@/pages/NotFoundPage'
-import { SettingsPage } from '@/pages/SettingsPage'
+
+const CalendarPage = lazy(() =>
+  import('@/features/calendar/CalendarPage').then((m) => ({ default: m.CalendarPage })),
+)
+const ServicesPage = lazy(() =>
+  import('@/features/services/ServicesPage').then((m) => ({ default: m.ServicesPage })),
+)
+const ShoppingPage = lazy(() =>
+  import('@/features/shopping/ShoppingPage').then((m) => ({ default: m.ShoppingPage })),
+)
+const TasksPage = lazy(() =>
+  import('@/features/tasks/TasksPage').then((m) => ({ default: m.TasksPage })),
+)
+const ContactsPage = lazy(() =>
+  import('@/features/contacts/ContactsPage').then((m) => ({ default: m.ContactsPage })),
+)
+const MaintenancePage = lazy(() =>
+  import('@/features/maintenance/MaintenancePage').then((m) => ({ default: m.MaintenancePage })),
+)
+const PetsPage = lazy(() =>
+  import('@/features/pets/PetsPage').then((m) => ({ default: m.PetsPage })),
+)
+const VehiclesPage = lazy(() =>
+  import('@/features/vehicles/VehiclesPage').then((m) => ({ default: m.VehiclesPage })),
+)
+const PlantsPage = lazy(() =>
+  import('@/features/plants/PlantsPage').then((m) => ({ default: m.PlantsPage })),
+)
+const DocumentsPage = lazy(() =>
+  import('@/features/documents/DocumentsPage').then((m) => ({ default: m.DocumentsPage })),
+)
+const RoomsPage = lazy(() =>
+  import('@/features/rooms/RoomsPage').then((m) => ({ default: m.RoomsPage })),
+)
+const StatsPage = lazy(() =>
+  import('@/features/stats/StatsPage').then((m) => ({ default: m.StatsPage })),
+)
+const DesignShowcasePage = lazy(() =>
+  import('@/pages/DesignShowcasePage').then((m) => ({ default: m.DesignShowcasePage })),
+)
+const ModulePlaceholderPage = lazy(() =>
+  import('@/pages/ModulePlaceholderPage').then((m) => ({ default: m.ModulePlaceholderPage })),
+)
+const ModulesPage = lazy(() =>
+  import('@/pages/ModulesPage').then((m) => ({ default: m.ModulesPage })),
+)
+const NotFoundPage = lazy(() =>
+  import('@/pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })),
+)
+const SettingsPage = lazy(() =>
+  import('@/pages/SettingsPage').then((m) => ({ default: m.SettingsPage })),
+)
 
 export function App() {
   useApplyTheme()

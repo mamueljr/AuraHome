@@ -46,4 +46,10 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
+  build: {
+    // El chunk de entrada agrupa React, Router, Framer Motion, Radix y Dexie
+    // (necesarios en toda la app vía AppLayout); las páginas se cargan
+    // en chunks aparte con React.lazy — ver src/App.tsx.
+    chunkSizeWarningLimit: 600,
+  },
 })

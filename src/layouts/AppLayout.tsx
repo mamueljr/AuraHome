@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { useLocation, useOutlet } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
+import { PageLoader } from '@/components/PageLoader'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { APP_CONFIG } from '@/config/app'
 import { NAV_MODULES, findModuleByPath } from '@/config/navigation'
@@ -50,7 +51,7 @@ export function AppLayout() {
             transition={{ duration: 0.18, ease: 'easeOut' }}
             className="mx-auto w-full max-w-5xl flex-1 px-4 py-6 pb-28 md:px-8 md:pb-10"
           >
-            {outlet}
+            <Suspense fallback={<PageLoader />}>{outlet}</Suspense>
           </motion.main>
         </AnimatePresence>
 
