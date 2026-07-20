@@ -134,12 +134,12 @@ export function MaintenanceFormDialog({
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label>Área</Label>
+              <Label htmlFor="mnt-area">Área</Label>
               <Select
                 value={form.area}
                 onValueChange={(v) => set('area', v as MaintenanceArea)}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger id="mnt-area" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

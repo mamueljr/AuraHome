@@ -37,4 +37,4 @@ Cada versión es funcional y desplegable. No se avanza a la siguiente sin que la
 - **v0.15 — Estadísticas** ✅ (gráficas de gastos, pagos, actividad)
 - **v0.16 — Notificaciones** ✅ (recordatorios inteligentes vía Notification API)
 - **v0.17 — Integración ecosistema Aura** ✅ (contrato de datos compartido para habitaciones/inventario)
-- **v1.0 — Release** (auditoría de accesibilidad, rendimiento, onboarding, splash, pulido final)
+- **v1.0 — Release** ✅ (auditoría de accesibilidad, rendimiento, onboarding, splash, pulido final)

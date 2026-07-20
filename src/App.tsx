@@ -5,6 +5,8 @@ import { useReminderNotifications } from '@/hooks/useReminderNotifications'
 import { AppLayout } from '@/layouts/AppLayout'
 import { MODULES } from '@/config/navigation'
 import { DashboardPage } from '@/features/dashboard/DashboardPage'
+import { WelcomePage } from '@/pages/WelcomePage'
+import { useOnboardingStore } from '@/stores/onboarding.store'
 
 const CalendarPage = lazy(() =>
   import('@/features/calendar/CalendarPage').then((m) => ({ default: m.CalendarPage })),
@@ -61,6 +63,12 @@ const SettingsPage = lazy(() =>
 export function App() {
   useApplyTheme()
   useReminderNotifications()
+  const onboarded = useOnboardingStore((s) => s.completed)
+  const completeOnboarding = useOnboardingStore((s) => s.complete)
+
+  if (!onboarded) {
+    return <WelcomePage onComplete={completeOnboarding} />
+  }
 
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>

@@ -102,9 +102,9 @@ export function PetRecordFormDialog({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label>Tipo</Label>
+              <Label htmlFor="pr-kind">Tipo</Label>
               <Select value={form.kind} onValueChange={(v) => set('kind', v as PetRecordKind)}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger id="pr-kind" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

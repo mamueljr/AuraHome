@@ -128,12 +128,12 @@ export function ContactFormDialog({
           </div>
 
           <div className="space-y-2">
-            <Label>Categoría</Label>
+            <Label htmlFor="ct-category">Categoría</Label>
             <Select
               value={form.category}
               onValueChange={(v) => set('category', v as ContactCategory)}
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger id="ct-category" className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

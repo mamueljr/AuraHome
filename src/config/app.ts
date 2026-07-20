@@ -4,7 +4,7 @@
  */
 export const APP_CONFIG = {
   name: 'Aura Home',
-  version: '0.1.0',
+  version: '1.0.0',
   ecosystem: 'Aura',
   /** Base pública (GitHub Pages). Vite la inyecta en build. */
   baseUrl: import.meta.env.BASE_URL,

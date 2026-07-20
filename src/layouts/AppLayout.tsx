@@ -32,6 +32,12 @@ export function AppLayout() {
 
   return (
     <div className="flex min-h-dvh">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+      >
+        Saltar al contenido
+      </a>
       <Sidebar />
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -44,6 +50,7 @@ export function AppLayout() {
 
         <AnimatePresence mode="wait" initial={false}>
           <motion.main
+            id="main-content"
             key={location.pathname}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

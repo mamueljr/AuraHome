@@ -86,9 +86,9 @@ export function PetFormDialog({ open, onOpenChange, pet, onSubmit }: PetFormDial
               <Input id="pet-name" value={form.name} onChange={(e) => set('name', e.target.value)} autoFocus />
             </div>
             <div className="space-y-2">
-              <Label>Especie</Label>
+              <Label htmlFor="pet-species">Especie</Label>
               <Select value={form.species} onValueChange={(v) => set('species', v as PetSpecies)}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger id="pet-species" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

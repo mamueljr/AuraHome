@@ -164,9 +164,9 @@ export function ItemFormDialog({
               />
             </div>
             <div className="space-y-2">
-              <Label>Categoría</Label>
+              <Label htmlFor="item-category">Categoría</Label>
               <Select value={form.category} onValueChange={(v) => set('category', v as ItemCategory)}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger id="item-category" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

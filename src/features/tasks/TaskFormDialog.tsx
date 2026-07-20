@@ -115,12 +115,12 @@ export function TaskFormDialog({
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label>Prioridad</Label>
+              <Label htmlFor="task-priority">Prioridad</Label>
               <Select
                 value={form.priority}
                 onValueChange={(v) => set('priority', v as Priority)}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger id="task-priority" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

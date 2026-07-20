@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClientProvider } from '@tanstack/react-query'
+import { MotionConfig } from 'framer-motion'
 import { App } from '@/App'
 import { queryClient } from '@/config/query-client'
 import '@/index.css'
@@ -12,8 +13,12 @@ if (!container) {
 
 createRoot(container).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
+    {/* reducedMotion="user": respeta prefers-reduced-motion del sistema
+        en todas las animaciones de Framer Motion de la app. */}
+    <MotionConfig reducedMotion="user">
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </MotionConfig>
   </StrictMode>,
 )

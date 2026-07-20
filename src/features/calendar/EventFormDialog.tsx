@@ -136,12 +136,12 @@ export function EventFormDialog({
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label>Tipo</Label>
+              <Label htmlFor="evt-kind">Tipo</Label>
               <Select
                 value={form.kind}
                 onValueChange={(v) => set('kind', v as EventKind)}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger id="evt-kind" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

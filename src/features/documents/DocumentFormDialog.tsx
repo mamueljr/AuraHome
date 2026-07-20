@@ -153,12 +153,12 @@ export function DocumentFormDialog({
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label>Categoría</Label>
+              <Label htmlFor="doc-category">Categoría</Label>
               <Select
                 value={form.category}
                 onValueChange={(v) => set('category', v as DocumentCategory)}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger id="doc-category" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

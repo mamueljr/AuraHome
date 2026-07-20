@@ -243,12 +243,15 @@ export function CalendarPage() {
                   const items = agenda.get(dateOnly) ?? []
                   const isToday = dateOnly === today
                   const isSelected = dateOnly === selected
+                  const kindsSummary = items.length
+                    ? ` — ${[...new Set(items.map((item) => AGENDA_KIND_META[item.kind].label))].join(', ')}`
+                    : ''
                   return (
                     <button
                       key={dateOnly}
                       type="button"
                       onClick={() => setSelected(dateOnly)}
-                      aria-label={dayLabel(dateOnly)}
+                      aria-label={`${dayLabel(dateOnly)}${kindsSummary}`}
                       className={cn(
                         'flex aspect-square flex-col items-center justify-center gap-0.5 rounded-lg text-sm transition-colors sm:aspect-auto sm:py-2',
                         !inMonth && 'text-muted-foreground/40',
@@ -265,7 +268,7 @@ export function CalendarPage() {
                       >
                         {date.getDate()}
                       </span>
-                      <span className="flex h-1.5 items-center gap-0.5">
+                      <span className="flex h-1.5 items-center gap-0.5" aria-hidden="true">
                         {items.slice(0, 3).map((item) => (
                           <span
                             key={item.key}

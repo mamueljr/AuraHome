@@ -126,12 +126,12 @@ export function ServiceFormDialog({
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label>Categoría</Label>
+              <Label htmlFor="svc-category">Categoría</Label>
               <Select
                 value={form.category}
                 onValueChange={(v) => set('category', v as ServiceCategory)}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger id="svc-category" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -160,12 +160,12 @@ export function ServiceFormDialog({
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label>Frecuencia</Label>
+              <Label htmlFor="svc-frequency">Frecuencia</Label>
               <Select
                 value={form.frequency}
                 onValueChange={(v) => set('frequency', v as Frequency)}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger id="svc-frequency" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

@@ -10,9 +10,51 @@
       content="Aura Home — el centro de tu hogar: pagos, tareas, calendario y más."
     />
     <title>Aura Home</title>
+    <style>
+      /*
+        Splash crítico: se ve mientras carga el bundle de React. En cuanto
+        createRoot().render() monta la app, reemplaza el contenido de #root
+        y este splash desaparece solo — no requiere JS propio.
+      */
+      #root {
+        display: flex;
+        min-height: 100dvh;
+        align-items: center;
+        justify-content: center;
+        background: oklch(0.982 0.005 295);
+      }
+      .splash-mark {
+        width: 64px;
+        height: 64px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, oklch(0.71 0.14 295), oklch(0.46 0.18 295));
+        box-shadow: 0 20px 40px -10px oklch(0.62 0.18 295 / 0.35);
+      }
+      .splash-title {
+        margin: 16px 0 0;
+        font-family: system-ui, sans-serif;
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: oklch(0.22 0.02 295);
+        text-align: center;
+      }
+      @media (prefers-color-scheme: dark) {
+        #root {
+          background: oklch(0.165 0.015 295);
+        }
+        .splash-title {
+          color: oklch(0.95 0.01 295);
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div style="display: flex; flex-direction: column; align-items: center">
+        <div class="splash-mark" aria-hidden="true"></div>
+        <p class="splash-title">Aura Home</p>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

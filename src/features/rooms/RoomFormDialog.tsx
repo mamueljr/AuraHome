@@ -85,9 +85,9 @@ export function RoomFormDialog({ open, onOpenChange, room, onSubmit }: RoomFormD
               />
             </div>
             <div className="space-y-2">
-              <Label>Tipo</Label>
+              <Label htmlFor="room-type">Tipo</Label>
               <Select value={form.type} onValueChange={(v) => set('type', v as RoomType)}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger id="room-type" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
