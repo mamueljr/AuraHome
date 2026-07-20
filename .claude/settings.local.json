@@ -25,7 +25,8 @@
       "Bash(git commit -m 'v0.3: navegación y shell de la app *)",
       "Bash(git commit -m 'v0.4: capa de datos *)",
       "Bash(sed -i 's/- \\\\*\\\\*v0.2 — Aura Design System\\\\*\\\\*/- **v0.2 — Aura Design System** ✅/; s/- \\\\*\\\\*v0.3 — Navegación y shell de la app\\\\*\\\\*/- **v0.3 — Navegación y shell de la app** ✅/; s/- \\\\*\\\\*v0.4 — Capa de datos\\\\*\\\\*/- **v0.4 — Capa de datos** ✅/' ROADMAP.md)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(xargs ls)"
     ]
   }
 }

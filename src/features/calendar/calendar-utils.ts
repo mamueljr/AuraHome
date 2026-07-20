@@ -1,6 +1,7 @@
 import { nextOccurrence, parseLocalDate, toDateOnly } from '@/utils/dates'
 import { nextWateringDate } from '@/features/plants/plant-utils'
 import type {
+  AuraDocument,
   CalendarEvent,
   MaintenanceRecord,
   PetRecord,
@@ -21,6 +22,7 @@ export type AgendaKind =
   | 'mascota'
   | 'vehiculo'
   | 'planta'
+  | 'documento'
 
 export interface AgendaItem {
   key: string
@@ -47,6 +49,7 @@ export const AGENDA_KIND_META: Record<
   mascota: { label: 'Mascota', dotClass: 'bg-pink-500' },
   vehiculo: { label: 'Vehículo', dotClass: 'bg-cyan-500' },
   planta: { label: 'Planta', dotClass: 'bg-lime-500' },
+  documento: { label: 'Documento', dotClass: 'bg-violet-500' },
 }
 
 function extractTime(iso: string): string | undefined {
@@ -76,6 +79,7 @@ export function buildAgenda(
   petRecords: PetRecord[] = [],
   vehicleRecords: VehicleRecord[] = [],
   plants: Plant[] = [],
+  documents: AuraDocument[] = [],
 ): Map<string, AgendaItem[]> {
   const map = new Map<string, AgendaItem[]>()
   const startKey = toDateOnly(start)
@@ -204,6 +208,18 @@ export function buildAgenda(
       title: plant.name,
       subtitle: 'Regar planta',
       dateOnly: next,
+    })
+  }
+
+  for (const doc of documents) {
+    if (!doc.expiryDate || !inRange(doc.expiryDate)) continue
+    push(map, {
+      key: `${doc.id}:expiry`,
+      sourceId: doc.id,
+      kind: 'documento',
+      title: doc.title,
+      subtitle: 'Vencimiento de documento',
+      dateOnly: doc.expiryDate,
     })
   }
 

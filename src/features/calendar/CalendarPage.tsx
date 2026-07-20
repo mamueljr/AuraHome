@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { EmptyState } from '@/components/EmptyState'
 import {
+  useDocuments,
   useEvents,
   useMaintenance,
   usePetRecords,
@@ -101,6 +102,7 @@ export function CalendarPage() {
   const { data: petRecords = [] } = usePetRecords()
   const { data: vehicleRecords = [] } = useVehicleRecords()
   const { data: plants = [] } = usePlants()
+  const { data: documents = [] } = useDocuments()
   const { createEvent, updateEvent, removeEvent } = useEventMutations()
 
   const today = toDateOnly(new Date())
@@ -143,6 +145,7 @@ export function CalendarPage() {
       petRecords,
       vehicleRecords,
       plants,
+      documents,
     )
   }, [
     events,
@@ -152,6 +155,7 @@ export function CalendarPage() {
     petRecords,
     vehicleRecords,
     plants,
+    documents,
     weeks,
     weekDays,
   ])
