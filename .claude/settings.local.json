@@ -47,7 +47,11 @@
       "Bash(node -e \"console.log\\(typeof require\\('lucide-react'\\).Loader2\\)\")",
       "Bash(node -e \"const i=require\\('lucide-react'\\); console.log\\(typeof i.Bell, typeof i.BellRing, typeof i.BellOff\\)\")",
       "Bash(ls ~/Documentos/GitHub/ 2>/dev/null; echo \"---\"; grep -rn \"Inventory\\\\|Weather\\\\|Finance\\\\|ecosistema\" /home/emmanuel/Documentos/GitHub/AuraHome/README.md /home/emmanuel/Documentos/GitHub/AuraHome/ROADMAP.md 2>/dev/null)",
-      "Bash(node -e \"const fm = require\\('framer-motion'\\); console.log\\(typeof fm.MotionConfig\\)\")"
+      "Bash(node -e \"const fm = require\\('framer-motion'\\); console.log\\(typeof fm.MotionConfig\\)\")",
+      "Bash(python3 -c \"import cairosvg\")",
+      "Bash(convert -background none -density 384 /home/emmanuel/Documentos/GitHub/AuraHome/public/icons/favicon.svg -resize 192x192 /tmp/claude-1000/-home-emmanuel-Documentos-GitHub-AuraHome/3f4e0046-c4f7-4892-b812-34d27a70b3b7/scratchpad/test-icon-192.png)",
+      "Bash(identify /tmp/claude-1000/-home-emmanuel-Documentos-GitHub-AuraHome/3f4e0046-c4f7-4892-b812-34d27a70b3b7/scratchpad/test-icon-192.png)",
+      "Bash(curl -s http://localhost:5173/_icon-render.html)"
     ]
   }
 }
