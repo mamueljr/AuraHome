@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Home, MoreVertical, Pencil, Plus, Trash2 } from 'lucide-react'
+import { Download, Home, MoreVertical, Pencil, Plus, Share2, Trash2, Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -11,14 +12,18 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { EmptyState } from '@/components/EmptyState'
+import { queryKeys } from '@/config/query-client'
 import { useHomeItems, useRooms } from '@/hooks/queries'
 import { cn } from '@/lib/utils'
+import { downloadRoomsContract, importRoomsContract } from '@/services/aura-contract.service'
 import { parseLocalDate } from '@/utils/dates'
 import type { HomeItem, Room } from '@/types/entities'
 import { ITEM_CATEGORY_META, ROOM_TYPE_META } from './room-meta'
 import { RoomFormDialog } from './RoomFormDialog'
 import { ItemFormDialog } from './ItemFormDialog'
 import { useRoomMutations } from './useRoomMutations'
+
+type ContractFeedback = { kind: 'ok' | 'error'; message: string } | null
 
 function RoomCard({
   room,
@@ -134,11 +139,15 @@ export function RoomsPage() {
     removeItem,
   } = useRoomMutations()
 
+  const queryClient = useQueryClient()
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null)
   const [roomFormOpen, setRoomFormOpen] = useState(false)
   const [editingRoom, setEditingRoom] = useState<Room | null>(null)
   /** null = cerrado; { item: null } = alta; { item } = edición. */
   const [itemDialog, setItemDialog] = useState<{ item: HomeItem | null } | null>(null)
+  const [contractFeedback, setContractFeedback] = useState<ContractFeedback>(null)
 
   const itemsByRoom = useMemo(() => {
     const map = new Map<string, HomeItem[]>()
@@ -162,16 +171,75 @@ export function RoomsPage() {
     setItemDialog({ item: null })
   }
 
+  async function onImportFile(file: File) {
+    try {
+      const { rooms: roomCount, items: itemCount } = await importRoomsContract(await file.text())
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: queryKeys.rooms }),
+        queryClient.invalidateQueries({ queryKey: queryKeys.homeItems }),
+        queryClient.invalidateQueries({ queryKey: queryKeys.dataStats }),
+      ])
+      setContractFeedback({
+        kind: 'ok',
+        message: `Se importaron ${roomCount} habitaciones y ${itemCount} objetos.`,
+      })
+    } catch (error) {
+      setContractFeedback({
+        kind: 'error',
+        message: error instanceof Error ? error.message : 'Error al importar.',
+      })
+    }
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
         <p className="text-sm text-muted-foreground">
           {rooms.length === 0 ? 'Organiza tu casa por habitaciones' : `${rooms.length} habitaciones`}
         </p>
-        <Button onClick={openCreateRoom}>
-          <Plus /> Nueva habitación
-        </Button>
+        <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="icon" variant="outline" aria-label="Compartir con el ecosistema Aura">
+                <Share2 />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => void downloadRoomsContract()}>
+                <Download /> Exportar habitaciones (Aura)
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => fileInputRef.current?.click()}>
+                <Upload /> Importar habitaciones (Aura)
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="application/json"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (file) void onImportFile(file)
+              e.target.value = ''
+            }}
+          />
+          <Button onClick={openCreateRoom}>
+            <Plus /> Nueva habitación
+          </Button>
+        </div>
       </div>
+
+      {contractFeedback && (
+        <p
+          role="status"
+          className={
+            contractFeedback.kind === 'ok' ? 'text-sm text-primary' : 'text-sm text-destructive'
+          }
+        >
+          {contractFeedback.message}
+        </p>
+      )}
 
       {rooms.length === 0 ? (
         <EmptyState icon={Home} message="Aún no registras habitaciones." />
