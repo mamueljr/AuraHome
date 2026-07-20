@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Download, HardDrive, Upload } from 'lucide-react'
+import { Bell, Download, HardDrive, Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -9,7 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
+import { Switch } from '@/components/ui/switch'
 import { queryKeys } from '@/config/query-client'
 import {
   eventsRepo,
@@ -18,6 +21,7 @@ import {
   tasksRepo,
 } from '@/repositories'
 import { downloadBackup, importBackup } from '@/services/backup.service'
+import { useNotificationsStore } from '@/stores/notifications.store'
 
 const STATS = [
   ['Servicios', servicesRepo],
@@ -27,6 +31,99 @@ const STATS = [
 ] as const
 
 type Feedback = { kind: 'ok' | 'error'; message: string } | null
+
+type PermissionState = NotificationPermission | 'unsupported'
+
+function currentPermission(): PermissionState {
+  return typeof Notification === 'undefined' ? 'unsupported' : Notification.permission
+}
+
+/** Recordatorios de pagos, tareas y vencimientos vía Notification API. */
+function NotificationsCard() {
+  const enabled = useNotificationsStore((s) => s.enabled)
+  const daysBefore = useNotificationsStore((s) => s.daysBefore)
+  const setEnabled = useNotificationsStore((s) => s.setEnabled)
+  const setDaysBefore = useNotificationsStore((s) => s.setDaysBefore)
+
+  const [permission, setPermission] = useState<PermissionState>(currentPermission)
+  const [testSent, setTestSent] = useState(false)
+
+  async function handleToggle(checked: boolean) {
+    if (!checked) {
+      setEnabled(false)
+      return
+    }
+    if (typeof Notification === 'undefined') return
+    const result = await Notification.requestPermission()
+    setPermission(result)
+    if (result === 'granted') setEnabled(true)
+  }
+
+  function sendTest() {
+    if (typeof Notification === 'undefined') return
+    new Notification('Aura Home', { body: 'Así se verán tus recordatorios.' })
+    setTestSent(true)
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Bell className="size-4 text-primary" /> Notificaciones
+        </CardTitle>
+        <CardDescription>
+          {permission === 'unsupported'
+            ? 'Tu navegador no soporta notificaciones.'
+            : 'Recordatorios de pagos, tareas, vencimientos y más, mientras Aura Home esté abierta.'}
+        </CardDescription>
+      </CardHeader>
+      {permission !== 'unsupported' && (
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between gap-3">
+            <Label htmlFor="notif-enabled" className="cursor-pointer">
+              Activar recordatorios
+            </Label>
+            <Switch
+              id="notif-enabled"
+              checked={enabled}
+              onCheckedChange={(v) => void handleToggle(v)}
+            />
+          </div>
+
+          {permission === 'denied' && (
+            <p className="text-sm text-destructive">
+              Bloqueaste las notificaciones para este sitio. Actívalas desde los
+              ajustes de tu navegador.
+            </p>
+          )}
+
+          {enabled && permission === 'granted' && (
+            <>
+              <div className="flex items-center justify-between gap-3">
+                <Label htmlFor="notif-days">Días de anticipación</Label>
+                <Input
+                  id="notif-days"
+                  type="number"
+                  min={0}
+                  max={14}
+                  className="w-20"
+                  value={daysBefore}
+                  onChange={(e) => setDaysBefore(Number(e.target.value))}
+                />
+              </div>
+              <Button variant="outline" size="sm" onClick={sendTest}>
+                Probar notificación
+              </Button>
+              {testSent && (
+                <p className="text-xs text-muted-foreground">Notificación enviada.</p>
+              )}
+            </>
+          )}
+        </CardContent>
+      )}
+    </Card>
+  )
+}
 
 /** Ajustes: administración de los datos locales (respaldo e importación). */
 export function SettingsPage() {
@@ -121,6 +218,8 @@ export function SettingsPage() {
           )}
         </CardContent>
       </Card>
+
+      <NotificationsCard />
     </div>
   )
 }

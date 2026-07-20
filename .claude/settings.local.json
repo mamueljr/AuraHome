@@ -44,7 +44,8 @@
       "Bash(node __TRACKED_VAR__/scripts/validate_palette.js '#855bdc,#0091c9,#008c77,#996700,#db4241' --mode light)",
       "Bash(node oklch.mjs 0.66 0.16 295  0.52 0.16 240  0.64 0.13 180  0.58 0.16 85  0.62 0.18 25)",
       "Bash(node __TRACKED_VAR__/scripts/validate_palette.js '#9b7be9,#0070ba,#00a58f,#a2670a,#de4e4b' --mode dark)",
-      "Bash(node -e \"console.log\\(typeof require\\('lucide-react'\\).Loader2\\)\")"
+      "Bash(node -e \"console.log\\(typeof require\\('lucide-react'\\).Loader2\\)\")",
+      "Bash(node -e \"const i=require\\('lucide-react'\\); console.log\\(typeof i.Bell, typeof i.BellRing, typeof i.BellOff\\)\")"
     ]
   }
 }

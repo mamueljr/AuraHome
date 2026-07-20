@@ -1,6 +1,7 @@
 import { lazy } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { useApplyTheme } from '@/hooks/useApplyTheme'
+import { useReminderNotifications } from '@/hooks/useReminderNotifications'
 import { AppLayout } from '@/layouts/AppLayout'
 import { MODULES } from '@/config/navigation'
 import { DashboardPage } from '@/features/dashboard/DashboardPage'
@@ -59,6 +60,7 @@ const SettingsPage = lazy(() =>
 
 export function App() {
   useApplyTheme()
+  useReminderNotifications()
 
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
