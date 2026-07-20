@@ -1,4 +1,5 @@
 import {
+  BarChart3,
   CalendarDays,
   Car,
   FileText,
@@ -117,6 +118,14 @@ export const MODULES: ModuleDef[] = [
     icon: Sofa,
     description: 'Tu vivienda, habitación por habitación, de forma visual.',
     plannedVersion: 'v0.14',
+  },
+  {
+    id: 'estadisticas',
+    path: '/estadisticas',
+    label: 'Estadísticas',
+    icon: BarChart3,
+    description: 'Gráficas de gastos, pagos y actividad del hogar.',
+    plannedVersion: 'v0.15',
   },
 ]
 

@@ -28,7 +28,22 @@
       "Bash(git commit *)",
       "Bash(xargs ls)",
       "Bash(node -e ' *)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(xargs -I{} echo {})",
+      "Bash(timeout 40 npx shadcn@latest add chart --yes)",
+      "Skill(dataviz)",
+      "Skill(dataviz:*)",
+      "Bash(node /tmp/claude-1000/bundled-skills/2.1.209/17cbdf145a4db08735c87085a5573d48/dataviz/scripts/validate_palette.js '#906ae5,#0099e0,#00baa2,#d6a62e,#e85854' --mode light)",
+      "Bash(node /tmp/claude-1000/bundled-skills/2.1.209/17cbdf145a4db08735c87085a5573d48/dataviz/scripts/validate_palette.js '#a88eef,#44a8e7,#39c3ae,#dab155,#f2716a' --mode dark)",
+      "Bash(node oklch.mjs 0.62 0.18 295 0.65 0.15 240 0.7 0.14 180 0.75 0.14 85 0.65 0.18 25)",
+      "Bash(node oklch.mjs 0.66 0.16 295  0.52 0.16 240  0.64 0.13 180  0.50 0.16 85  0.62 0.18 25)",
+      "Bash(node /tmp/claude-1000/bundled-skills/2.1.209/17cbdf145a4db08735c87085a5573d48/dataviz/scripts/validate_palette.js '#9b7be9,#0070ba,#00a58f,#8c5700,#de4e4b' --mode dark)",
+      "Bash(node oklch.mjs 0.58 0.19 295  0.68 0.14 240  0.56 0.13 180  0.55 0.15 85  0.60 0.19 25)",
+      "Bash(node /tmp/claude-1000/bundled-skills/2.1.209/17cbdf145a4db08735c87085a5573d48/dataviz/scripts/validate_palette.js '#855bdc,#2ea2e5,#008c77,#996700,#db4241' --mode light)",
+      "Bash(node oklch.mjs 0.58 0.19 295  0.58 0.16 240  0.56 0.13 180  0.55 0.15 85  0.60 0.19 25)",
+      "Bash(node __TRACKED_VAR__/scripts/validate_palette.js '#855bdc,#0091c9,#008c77,#996700,#db4241' --mode light)",
+      "Bash(node oklch.mjs 0.66 0.16 295  0.52 0.16 240  0.64 0.13 180  0.58 0.16 85  0.62 0.18 25)",
+      "Bash(node __TRACKED_VAR__/scripts/validate_palette.js '#9b7be9,#0070ba,#00a58f,#a2670a,#de4e4b' --mode dark)"
     ]
   }
 }
