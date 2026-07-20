@@ -234,6 +234,48 @@ export interface AuraDocument extends BaseEntity {
   notes?: string
 }
 
+// ---------- Mi Hogar (habitaciones e inventario) ----------
+
+export const ROOM_TYPES = [
+  'sala',
+  'cocina',
+  'recamara',
+  'bano',
+  'comedor',
+  'garage',
+  'jardin',
+  'oficina',
+  'lavanderia',
+  'otro',
+] as const
+export type RoomType = (typeof ROOM_TYPES)[number]
+
+export interface Room extends BaseEntity {
+  name: string
+  type: RoomType
+  notes?: string
+}
+
+export const ITEM_CATEGORIES = [
+  'mueble',
+  'electrodomestico',
+  'electronica',
+  'decoracion',
+  'otro',
+] as const
+export type ItemCategory = (typeof ITEM_CATEGORIES)[number]
+
+export interface HomeItem extends BaseEntity {
+  roomId: string
+  name: string
+  category: ItemCategory
+  brand?: string
+  purchaseDate?: string
+  /** Fotografía como data-URL JPEG comprimida. */
+  photo?: string
+  notes?: string
+}
+
 // ---------- Calendario ----------
 
 export const EVENT_KINDS = ['evento', 'cumpleanos', 'recordatorio'] as const

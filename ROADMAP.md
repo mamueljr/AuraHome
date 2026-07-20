@@ -33,7 +33,7 @@ Cada versión es funcional y desplegable. No se avanza a la siguiente sin que la
 
 ## Fase 4 — Diferenciación y pulido
 
-- **v0.14 — "Mi Hogar"** (representación visual interactiva de la vivienda por habitaciones)
+- **v0.14 — "Mi Hogar"** ✅ (representación visual interactiva de la vivienda por habitaciones)
 - **v0.15 — Estadísticas** (gráficas de gastos, pagos, actividad)
 - **v0.16 — Notificaciones** (recordatorios inteligentes vía Notification API)
 - **v0.17 — Integración ecosistema Aura** (contratos/eventos para Inventory, Weather, Finance…)

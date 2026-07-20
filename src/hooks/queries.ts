@@ -4,10 +4,12 @@ import {
   contactsRepo,
   documentsRepo,
   eventsRepo,
+  homeItemsRepo,
   maintenanceRepo,
   petRecordsRepo,
   petsRepo,
   plantsRepo,
+  roomsRepo,
   servicePaymentsRepo,
   servicesRepo,
   shoppingRepo,
@@ -103,5 +105,16 @@ export function useDocuments() {
   return useQuery({
     queryKey: queryKeys.documents,
     queryFn: () => documentsRepo.getAll(),
+  })
+}
+
+export function useRooms() {
+  return useQuery({ queryKey: queryKeys.rooms, queryFn: () => roomsRepo.getAll() })
+}
+
+export function useHomeItems() {
+  return useQuery({
+    queryKey: queryKeys.homeItems,
+    queryFn: () => homeItemsRepo.getAll(),
   })
 }

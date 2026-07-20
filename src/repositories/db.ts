@@ -3,10 +3,12 @@ import type {
   AuraDocument,
   CalendarEvent,
   Contact,
+  HomeItem,
   MaintenanceRecord,
   Pet,
   PetRecord,
   Plant,
+  Room,
   Service,
   ServicePayment,
   ShoppingItem,
@@ -36,6 +38,8 @@ export class AuraDatabase extends Dexie {
   vehicleRecords!: Table<VehicleRecord, string>
   plants!: Table<Plant, string>
   documents!: Table<AuraDocument, string>
+  rooms!: Table<Room, string>
+  homeItems!: Table<HomeItem, string>
 
   constructor() {
     super('aura-home')
@@ -66,6 +70,11 @@ export class AuraDatabase extends Dexie {
     this.version(5).stores({
       documents: 'id, category, expiryDate',
     })
+    // v6 (app v0.14): Mi Hogar (habitaciones e inventario)
+    this.version(6).stores({
+      rooms: 'id, type',
+      homeItems: 'id, roomId, category',
+    })
   }
 }
 
@@ -86,5 +95,7 @@ export const BACKUP_TABLES = [
   'vehicleRecords',
   'plants',
   'documents',
+  'rooms',
+  'homeItems',
 ] as const
 export type BackupTable = (typeof BACKUP_TABLES)[number]

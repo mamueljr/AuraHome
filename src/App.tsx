@@ -13,6 +13,7 @@ import { PetsPage } from '@/features/pets/PetsPage'
 import { VehiclesPage } from '@/features/vehicles/VehiclesPage'
 import { PlantsPage } from '@/features/plants/PlantsPage'
 import { DocumentsPage } from '@/features/documents/DocumentsPage'
+import { RoomsPage } from '@/features/rooms/RoomsPage'
 import { DesignShowcasePage } from '@/pages/DesignShowcasePage'
 import { ModulePlaceholderPage } from '@/pages/ModulePlaceholderPage'
 import { ModulesPage } from '@/pages/ModulesPage'
@@ -38,6 +39,7 @@ export function App() {
           <Route path="/vehiculos" element={<VehiclesPage />} />
           <Route path="/plantas" element={<PlantsPage />} />
           <Route path="/documentos" element={<DocumentsPage />} />
+          <Route path="/mi-hogar" element={<RoomsPage />} />
           {MODULES.filter(
             (m) =>
               ![
@@ -51,6 +53,7 @@ export function App() {
                 'vehiculos',
                 'plantas',
                 'documentos',
+                'mi-hogar',
               ].includes(m.id),
           ).map((m) => (
             <Route
