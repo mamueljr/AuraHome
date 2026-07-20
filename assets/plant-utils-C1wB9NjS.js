@@ -1,1 +1,0 @@
-import{a as e,n as t,s as n}from"./index-D0SluAGT.js";function r(t){if(!t.lastWateredDate)return null;let r=e(t.lastWateredDate);return r.setDate(r.getDate()+t.wateringFrequencyDays),n(r)}function i(e){let n=r(e);return n===null?null:t(n)}export{r as n,i as t};
