@@ -1,13 +1,33 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { Palette, Settings } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { MODULES } from '@/config/navigation'
 
+/** Entradas extra (no-módulos) accesibles solo desde el sidebar en desktop. */
+const EXTRAS = [
+  {
+    id: 'ajustes',
+    path: '/ajustes',
+    label: 'Ajustes',
+    icon: Settings,
+    description: 'Respaldos, sincronización con Drive y notificaciones.',
+  },
+  {
+    id: 'design',
+    path: '/design',
+    label: 'Aura Design',
+    icon: Palette,
+    description: 'Showcase interno del sistema de diseño Aura.',
+  },
+] as const
+
 /** Directorio de todos los módulos de Aura Home. */
 export function ModulesPage() {
+  const entries = [...MODULES, ...EXTRAS]
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-      {MODULES.map((m, i) => (
+      {entries.map((m, i) => (
         <motion.div
           key={m.id}
           initial={{ opacity: 0, scale: 0.96 }}
