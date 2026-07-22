@@ -33,5 +33,11 @@ export function useContactMutations() {
     onSuccess: invalidate,
   })
 
-  return { createContact, updateContact, removeContact }
+  const importContacts = useMutation({
+    mutationFn: (items: NewEntity<Contact>[]) =>
+      Promise.all(items.map((data) => contactsRepo.create(data))),
+    onSuccess: invalidate,
+  })
+
+  return { createContact, updateContact, removeContact, importContacts }
 }

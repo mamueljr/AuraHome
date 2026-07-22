@@ -37,7 +37,8 @@ export type SyncResult =
 
 let gisPromise: Promise<void> | null = null
 
-function loadGis(): Promise<void> {
+/** Carga el script de Google Identity Services (compartido con otras integraciones de Google). */
+export function loadGis(): Promise<void> {
   if (window.google?.accounts?.oauth2) return Promise.resolve()
   gisPromise ??= new Promise((resolve, reject) => {
     const script = document.createElement('script')

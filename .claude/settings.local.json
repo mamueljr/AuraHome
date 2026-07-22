@@ -53,7 +53,8 @@
       "Bash(identify /tmp/claude-1000/-home-emmanuel-Documentos-GitHub-AuraHome/3f4e0046-c4f7-4892-b812-34d27a70b3b7/scratchpad/test-icon-192.png)",
       "Bash(curl -s http://localhost:5173/_icon-render.html)",
       "Bash(npx eslint *)",
-      "Bash(npx oxlint *)"
+      "Bash(npx oxlint *)",
+      "Bash(timeout 20 npx vite build)"
     ]
   }
 }

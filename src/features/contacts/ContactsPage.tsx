@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
+  Download,
   Mail,
   MoreVertical,
   Pencil,
@@ -21,10 +22,12 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { EmptyState } from '@/components/EmptyState'
+import { APP_CONFIG } from '@/config/app'
 import { useContacts } from '@/hooks/queries'
 import type { Contact, ContactCategory } from '@/types/entities'
 import { CONTACT_CATEGORY_META } from './contact-meta'
 import { ContactFormDialog } from './ContactFormDialog'
+import { ImportGoogleContactsDialog } from './ImportGoogleContactsDialog'
 import { useContactMutations } from './useContactMutations'
 
 function ContactCard({
@@ -109,12 +112,13 @@ function ContactCard({
 /** Módulo de Contactos: familia, salud, servicios y emergencias. */
 export function ContactsPage() {
   const { data: contacts = [] } = useContacts()
-  const { createContact, updateContact, removeContact } =
+  const { createContact, updateContact, removeContact, importContacts } =
     useContactMutations()
 
   const [query, setQuery] = useState('')
   const [formOpen, setFormOpen] = useState(false)
   const [editing, setEditing] = useState<Contact | null>(null)
+  const [importOpen, setImportOpen] = useState(false)
 
   const { emergency, byCategory } = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -158,6 +162,12 @@ export function ContactsPage() {
           placeholder="Buscar contacto…"
           className="min-w-40 flex-1"
         />
+        {APP_CONFIG.googleClientId && (
+          <Button variant="outline" onClick={() => setImportOpen(true)}>
+            <Download />
+            <span className="hidden sm:inline">Importar de Google</span>
+          </Button>
+        )}
         <Button
           onClick={() => {
             setEditing(null)
@@ -224,6 +234,15 @@ export function ContactsPage() {
           }
         }}
       />
+
+      {APP_CONFIG.googleClientId && (
+        <ImportGoogleContactsDialog
+          open={importOpen}
+          onOpenChange={setImportOpen}
+          existingContacts={contacts}
+          onImport={(items) => importContacts.mutate(items)}
+        />
+      )}
     </div>
   )
 }
