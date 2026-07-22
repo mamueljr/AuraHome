@@ -170,7 +170,7 @@ export function DashboardPage() {
           {formatLongDate()}
         </p>
         <h2 className="font-heading text-2xl font-semibold tracking-tight">
-          {greeting()} 👋
+          {greeting()}
         </h2>
       </motion.section>
 
