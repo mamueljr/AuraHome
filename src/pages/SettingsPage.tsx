@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Bell, Download, HardDrive, Upload } from 'lucide-react'
+import { Bell, Cloud, Download, HardDrive, RefreshCw, Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -9,10 +9,19 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'
+import { APP_CONFIG } from '@/config/app'
 import { queryKeys } from '@/config/query-client'
 import {
   eventsRepo,
@@ -21,7 +30,15 @@ import {
   tasksRepo,
 } from '@/repositories'
 import { downloadBackup, importBackup } from '@/services/backup.service'
+import {
+  connect,
+  disconnect,
+  resolveConflict,
+  syncNow,
+  type SyncResult,
+} from '@/services/drive-sync.service'
 import { useNotificationsStore } from '@/stores/notifications.store'
+import { useSyncStore } from '@/stores/sync.store'
 
 const STATS = [
   ['Servicios', servicesRepo],
@@ -31,6 +48,183 @@ const STATS = [
 ] as const
 
 type Feedback = { kind: 'ok' | 'error'; message: string } | null
+
+function formatSyncDate(iso: string): string {
+  return new Date(iso).toLocaleString('es-MX', {
+    day: 'numeric',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
+
+/** Sincronización de respaldos con Google Drive. */
+function SyncCard() {
+  const queryClient = useQueryClient()
+  const enabled = useSyncStore((s) => s.enabled)
+  const accountEmail = useSyncStore((s) => s.accountEmail)
+  const lastSyncAt = useSyncStore((s) => s.lastSyncAt)
+
+  const [busy, setBusy] = useState(false)
+  const [feedback, setFeedback] = useState<Feedback>(null)
+  const [conflict, setConflict] = useState<{ localDate: string; remoteDate: string } | null>(null)
+
+  async function applyResult(result: SyncResult) {
+    if (result.action === 'conflict') {
+      setConflict({ localDate: result.localDate, remoteDate: result.remoteDate })
+      return
+    }
+    if (result.action === 'pulled') {
+      await queryClient.invalidateQueries()
+      setFeedback({
+        kind: 'ok',
+        message: `Datos actualizados desde Drive: ${result.imported} registros.`,
+      })
+    } else if (result.action === 'pushed') {
+      setFeedback({ kind: 'ok', message: 'Respaldo subido a Drive.' })
+    } else {
+      setFeedback({ kind: 'ok', message: 'Todo está al día.' })
+    }
+  }
+
+  async function run(operation: () => Promise<SyncResult>) {
+    setBusy(true)
+    setFeedback(null)
+    try {
+      await applyResult(await operation())
+    } catch (error) {
+      setFeedback({
+        kind: 'error',
+        message: error instanceof Error ? error.message : 'Error al sincronizar.',
+      })
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  function handleConnect() {
+    void run(async () => {
+      await connect()
+      return syncNow({ interactive: true })
+    })
+  }
+
+  if (!APP_CONFIG.googleClientId) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Cloud className="size-4 text-primary" /> Sincronización
+          </CardTitle>
+          <CardDescription>
+            Para sincronizar con Google Drive falta configurar el Client ID de
+            Google en la app (ver instrucciones del proyecto).
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    )
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Cloud className="size-4 text-primary" /> Sincronización
+        </CardTitle>
+        <CardDescription>
+          {enabled
+            ? `Conectado como ${accountEmail ?? 'cuenta de Google'} · Última sincronización: ${
+                lastSyncAt ? formatSyncDate(lastSyncAt) : 'nunca'
+              }`
+            : 'Guarda un respaldo en tu Google Drive y recupéralo en cualquier dispositivo.'}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="flex flex-wrap gap-3">
+          {enabled ? (
+            <>
+              <Button
+                variant="outline"
+                disabled={busy}
+                onClick={() => void run(() => syncNow({ interactive: true }))}
+              >
+                <RefreshCw className={busy ? 'animate-spin' : undefined} /> Sincronizar ahora
+              </Button>
+              <Button
+                variant="ghost"
+                disabled={busy}
+                onClick={() => {
+                  disconnect()
+                  setFeedback({ kind: 'ok', message: 'Cuenta desconectada.' })
+                }}
+              >
+                Desconectar
+              </Button>
+            </>
+          ) : (
+            <Button disabled={busy} onClick={handleConnect}>
+              <Cloud /> Conectar con Google
+            </Button>
+          )}
+        </div>
+
+        {feedback && (
+          <p
+            role="status"
+            className={feedback.kind === 'ok' ? 'text-sm text-primary' : 'text-sm text-destructive'}
+          >
+            {feedback.message}
+          </p>
+        )}
+      </CardContent>
+
+      <Dialog open={conflict !== null} onOpenChange={(open) => !open && setConflict(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Ambos lados tienen cambios</DialogTitle>
+            <DialogDescription>
+              Este dispositivo y Drive cambiaron desde la última sincronización.
+              Elige qué datos conservar (la otra versión se sobrescribe).
+            </DialogDescription>
+          </DialogHeader>
+          {conflict && (
+            <div className="space-y-1 text-sm">
+              <p>
+                <span className="font-medium">Este dispositivo:</span>{' '}
+                {formatSyncDate(conflict.localDate)}
+              </p>
+              <p>
+                <span className="font-medium">En Drive:</span>{' '}
+                {formatSyncDate(conflict.remoteDate)}
+              </p>
+            </div>
+          )}
+          <DialogFooter>
+            <Button
+              variant="outline"
+              disabled={busy}
+              onClick={() => {
+                setConflict(null)
+                void run(() => resolveConflict('remote'))
+              }}
+            >
+              Usar datos de Drive
+            </Button>
+            <Button
+              disabled={busy}
+              onClick={() => {
+                setConflict(null)
+                void run(() => resolveConflict('local'))
+              }}
+            >
+              Usar los de este dispositivo
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </Card>
+  )
+}
 
 type PermissionState = NotificationPermission | 'unsupported'
 
@@ -219,6 +413,7 @@ export function SettingsPage() {
         </CardContent>
       </Card>
 
+      <SyncCard />
       <NotificationsCard />
     </div>
   )

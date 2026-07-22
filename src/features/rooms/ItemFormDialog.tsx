@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Camera, X } from 'lucide-react'
+import { Camera, ImagePlus, X } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -67,6 +67,7 @@ export function ItemFormDialog({
   const [form, setForm] = useState<FormState>(() => initialState(item))
   const [processing, setProcessing] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
+  const cameraRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (open) setForm(initialState(item))
@@ -128,21 +129,44 @@ export function ItemFormDialog({
                   </button>
                 </div>
               ) : (
-                <button
-                  type="button"
-                  onClick={() => fileRef.current?.click()}
-                  disabled={processing}
-                  className="flex size-16 items-center justify-center rounded-lg border border-dashed text-muted-foreground transition-colors hover:bg-accent"
-                  aria-label="Agregar fotografía"
-                >
-                  <Camera className="size-5" />
-                </button>
+                <>
+                  <button
+                    type="button"
+                    onClick={() => fileRef.current?.click()}
+                    disabled={processing}
+                    className="flex size-16 items-center justify-center rounded-lg border border-dashed text-muted-foreground transition-colors hover:bg-accent"
+                    aria-label="Elegir fotografía"
+                  >
+                    <ImagePlus className="size-5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => cameraRef.current?.click()}
+                    disabled={processing}
+                    className="flex size-16 items-center justify-center rounded-lg border border-dashed text-muted-foreground transition-colors hover:bg-accent"
+                    aria-label="Tomar foto"
+                  >
+                    <Camera className="size-5" />
+                  </button>
+                </>
               )}
             </div>
             <input
               ref={fileRef}
               type="file"
               accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                if (file) void handlePhoto(file)
+                e.target.value = ''
+              }}
+            />
+            <input
+              ref={cameraRef}
+              type="file"
+              accept="image/*"
+              capture="environment"
               className="hidden"
               onChange={(e) => {
                 const file = e.target.files?.[0]

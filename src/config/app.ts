@@ -8,6 +8,13 @@ export const APP_CONFIG = {
   ecosystem: 'Aura',
   /** Base pública (GitHub Pages). Vite la inyecta en build. */
   baseUrl: import.meta.env.BASE_URL,
+  /**
+   * OAuth Client ID de Google para la sincronización con Drive.
+   * Es público por diseño (flujo de token en el navegador, sin secreto).
+   * Vacío = sincronización deshabilitada en la UI. Se crea en
+   * console.cloud.google.com → Credenciales → ID de cliente OAuth (Web).
+   */
+  googleClientId: '348046896392-tlkgkvvoga6dicoqpifsurv799bqjpja.apps.googleusercontent.com',
 } as const
 
 /**

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Camera, X } from 'lucide-react'
+import { Camera, ImagePlus, X } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -50,6 +50,7 @@ export function PlantFormDialog({
   const [form, setForm] = useState<FormState>(() => initialState(plant))
   const [processing, setProcessing] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
+  const cameraRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (open) setForm(initialState(plant))
@@ -141,15 +142,26 @@ export function PlantFormDialog({
                 </div>
               ))}
               {form.photos.length < 4 && (
-                <button
-                  type="button"
-                  onClick={() => fileRef.current?.click()}
-                  disabled={processing}
-                  className="flex size-16 items-center justify-center rounded-lg border border-dashed text-muted-foreground transition-colors hover:bg-accent"
-                  aria-label="Agregar fotografías"
-                >
-                  <Camera className="size-5" />
-                </button>
+                <>
+                  <button
+                    type="button"
+                    onClick={() => fileRef.current?.click()}
+                    disabled={processing}
+                    className="flex size-16 items-center justify-center rounded-lg border border-dashed text-muted-foreground transition-colors hover:bg-accent"
+                    aria-label="Elegir fotografías"
+                  >
+                    <ImagePlus className="size-5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => cameraRef.current?.click()}
+                    disabled={processing}
+                    className="flex size-16 items-center justify-center rounded-lg border border-dashed text-muted-foreground transition-colors hover:bg-accent"
+                    aria-label="Tomar foto"
+                  >
+                    <Camera className="size-5" />
+                  </button>
+                </>
               )}
             </div>
             <input
@@ -157,6 +169,17 @@ export function PlantFormDialog({
               type="file"
               accept="image/*"
               multiple
+              className="hidden"
+              onChange={(e) => {
+                if (e.target.files?.length) void addPhotos(e.target.files)
+                e.target.value = ''
+              }}
+            />
+            <input
+              ref={cameraRef}
+              type="file"
+              accept="image/*"
+              capture="environment"
               className="hidden"
               onChange={(e) => {
                 if (e.target.files?.length) void addPhotos(e.target.files)

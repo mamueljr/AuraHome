@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Upload } from 'lucide-react'
+import { Camera, Upload } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -25,7 +25,11 @@ import {
   type DocumentCategory,
   type NewEntity,
 } from '@/types/entities'
-import { readFileAsDataURL } from '@/utils/images'
+import {
+  compressDocumentImage,
+  dataUrlByteSize,
+  readFileAsDataURL,
+} from '@/utils/images'
 import { DOCUMENT_CATEGORY_META, formatFileSize } from './document-meta'
 
 interface DocumentFormDialogProps {
@@ -56,6 +60,7 @@ export function DocumentFormDialog({
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
+  const cameraRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (open) {
@@ -82,13 +87,18 @@ export function DocumentFormDialog({
     if (!valid || !form.file) return
     setSubmitting(true)
     try {
-      const fileData = await readFileAsDataURL(form.file)
+      // Las imágenes (galería o cámara) se comprimen para caber siempre;
+      // el resto de archivos conserva el límite de 5 MB sin comprimir.
+      const isImage = form.file.type.startsWith('image/')
+      const fileData = isImage
+        ? await compressDocumentImage(form.file)
+        : await readFileAsDataURL(form.file)
       const data: NewEntity<AuraDocument> = {
         title: form.title.trim(),
         category: form.category,
         fileName: form.file.name,
-        fileType: form.file.type || 'application/octet-stream',
-        fileSize: form.file.size,
+        fileType: isImage ? 'image/jpeg' : form.file.type || 'application/octet-stream',
+        fileSize: isImage ? dataUrlByteSize(fileData) : form.file.size,
         fileData,
       }
       if (form.expiryDate) data.expiryDate = form.expiryDate
@@ -109,7 +119,8 @@ export function DocumentFormDialog({
         <DialogHeader>
           <DialogTitle>Nuevo documento</DialogTitle>
           <DialogDescription>
-            PDF, fotos, garantías, contratos, seguros, recibos y manuales — hasta 5 MB.
+            PDF, fotos, garantías, contratos, seguros, recibos y manuales — hasta 5 MB
+            (las fotos se comprimen automáticamente).
           </DialogDescription>
         </DialogHeader>
 
@@ -128,9 +139,29 @@ export function DocumentFormDialog({
                   : 'Toca para elegir un archivo'}
               </span>
             </button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => cameraRef.current?.click()}
+            >
+              <Camera /> Tomar foto
+            </Button>
             <input
               ref={fileRef}
               type="file"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                if (file) handleFile(file)
+                e.target.value = ''
+              }}
+            />
+            <input
+              ref={cameraRef}
+              type="file"
+              accept="image/*"
+              capture="environment"
               className="hidden"
               onChange={(e) => {
                 const file = e.target.files?.[0]

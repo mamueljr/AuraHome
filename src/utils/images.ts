@@ -17,23 +17,17 @@ export function readFileAsDataURL(file: File): Promise<string> {
   })
 }
 
-const MAX_DIMENSION = 1280
-const JPEG_QUALITY = 0.8
-
-/**
- * Comprime una imagen a JPEG (máx. 1280px por lado) y la devuelve
- * como data-URL, lista para guardarse en IndexedDB.
- */
-export function compressImage(file: File): Promise<string> {
+function compressToJpeg(
+  file: File,
+  maxDimension: number,
+  quality: number,
+): Promise<string> {
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(file)
     const img = new Image()
     img.onload = () => {
       URL.revokeObjectURL(url)
-      const scale = Math.min(
-        1,
-        MAX_DIMENSION / Math.max(img.width, img.height),
-      )
+      const scale = Math.min(1, maxDimension / Math.max(img.width, img.height))
       const canvas = document.createElement('canvas')
       canvas.width = Math.round(img.width * scale)
       canvas.height = Math.round(img.height * scale)
@@ -43,7 +37,7 @@ export function compressImage(file: File): Promise<string> {
         return
       }
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-      resolve(canvas.toDataURL('image/jpeg', JPEG_QUALITY))
+      resolve(canvas.toDataURL('image/jpeg', quality))
     }
     img.onerror = () => {
       URL.revokeObjectURL(url)
@@ -51,4 +45,26 @@ export function compressImage(file: File): Promise<string> {
     }
     img.src = url
   })
+}
+
+/**
+ * Comprime una imagen a JPEG (máx. 1280px por lado) y la devuelve
+ * como data-URL, lista para guardarse en IndexedDB.
+ */
+export function compressImage(file: File): Promise<string> {
+  return compressToJpeg(file, 1280, 0.8)
+}
+
+/**
+ * Compresión para documentos fotografiados: mayor resolución (2048px)
+ * y calidad para que el texto siga siendo legible.
+ */
+export function compressDocumentImage(file: File): Promise<string> {
+  return compressToJpeg(file, 2048, 0.85)
+}
+
+/** Bytes aproximados que ocupa el contenido de un data-URL base64. */
+export function dataUrlByteSize(dataUrl: string): number {
+  const base64 = dataUrl.slice(dataUrl.indexOf(',') + 1)
+  return Math.round(base64.length * 0.75)
 }

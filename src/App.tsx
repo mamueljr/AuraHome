@@ -1,6 +1,7 @@
 import { lazy } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { useApplyTheme } from '@/hooks/useApplyTheme'
+import { useDriveSync } from '@/hooks/useDriveSync'
 import { useReminderNotifications } from '@/hooks/useReminderNotifications'
 import { AppLayout } from '@/layouts/AppLayout'
 import { MODULES } from '@/config/navigation'
@@ -63,6 +64,7 @@ const SettingsPage = lazy(() =>
 export function App() {
   useApplyTheme()
   useReminderNotifications()
+  useDriveSync()
   const onboarded = useOnboardingStore((s) => s.completed)
   const completeOnboarding = useOnboardingStore((s) => s.complete)
 
