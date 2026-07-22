@@ -3,6 +3,7 @@ import type {
   AuraDocument,
   CalendarEvent,
   Contact,
+  FamilyMember,
   HomeItem,
   MaintenanceRecord,
   Pet,
@@ -40,6 +41,7 @@ export class AuraDatabase extends Dexie {
   documents!: Table<AuraDocument, string>
   rooms!: Table<Room, string>
   homeItems!: Table<HomeItem, string>
+  familyMembers!: Table<FamilyMember, string>
 
   constructor() {
     super('aura-home')
@@ -75,6 +77,10 @@ export class AuraDatabase extends Dexie {
       rooms: 'id, type',
       homeItems: 'id, roomId, category',
     })
+    // v7: Familia y Datos
+    this.version(7).stores({
+      familyMembers: 'id, relation, birthDate',
+    })
   }
 }
 
@@ -97,5 +103,6 @@ export const BACKUP_TABLES = [
   'documents',
   'rooms',
   'homeItems',
+  'familyMembers',
 ] as const
 export type BackupTable = (typeof BACKUP_TABLES)[number]

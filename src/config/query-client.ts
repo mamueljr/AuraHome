@@ -31,5 +31,6 @@ export const queryKeys = {
   documents: ['documents'] as const,
   rooms: ['rooms'] as const,
   homeItems: ['homeItems'] as const,
+  family: ['family'] as const,
   dataStats: ['dataStats'] as const,
 }

@@ -1,6 +1,7 @@
 import {
   documentsRepo,
   eventsRepo,
+  familyRepo,
   maintenanceRepo,
   petRecordsRepo,
   petsRepo,
@@ -21,6 +22,17 @@ export interface Reminder {
   body: string
 }
 
+/** Próxima fecha (ISO, solo fecha) en que cae el cumpleaños. */
+function nextBirthdayDate(birthDate: string): string {
+  const birth = parseLocalDate(birthDate)
+  const today = new Date()
+  let next = new Date(today.getFullYear(), birth.getMonth(), birth.getDate())
+  if (next < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+    next = new Date(today.getFullYear() + 1, birth.getMonth(), birth.getDate())
+  }
+  return toDateOnly(next)
+}
+
 /**
  * Recolecta los recordatorios vigentes de todos los módulos del hogar:
  * pagos de servicios, tareas, documentos por vencer, mantenimiento,
@@ -30,19 +42,31 @@ export async function collectDueReminders(daysBefore: number): Promise<Reminder[
   const today = toDateOnly(new Date())
   const reminders: Reminder[] = []
 
-  const [services, tasks, documents, maintenance, pets, petRecords, vehicles, vehicleRecords, plants, events] =
-    await Promise.all([
-      servicesRepo.getAll(),
-      tasksRepo.getAll(),
-      documentsRepo.getAll(),
-      maintenanceRepo.getAll(),
-      petsRepo.getAll(),
-      petRecordsRepo.getAll(),
-      vehiclesRepo.getAll(),
-      vehicleRecordsRepo.getAll(),
-      plantsRepo.getAll(),
-      eventsRepo.getAll(),
-    ])
+  const [
+    services,
+    tasks,
+    documents,
+    maintenance,
+    pets,
+    petRecords,
+    vehicles,
+    vehicleRecords,
+    plants,
+    events,
+    familyMembers,
+  ] = await Promise.all([
+    servicesRepo.getAll(),
+    tasksRepo.getAll(),
+    documentsRepo.getAll(),
+    maintenanceRepo.getAll(),
+    petsRepo.getAll(),
+    petRecordsRepo.getAll(),
+    vehiclesRepo.getAll(),
+    vehicleRecordsRepo.getAll(),
+    plantsRepo.getAll(),
+    eventsRepo.getAll(),
+    familyRepo.getAll(),
+  ])
 
   for (const service of services) {
     if (service.archived === 1) continue
@@ -121,6 +145,18 @@ export async function collectDueReminders(daysBefore: number): Promise<Reminder[
       key: `event:${event.id}:${today}`,
       title: `Recordatorio: ${event.title}`,
       body: 'Hoy',
+    })
+  }
+
+  const thisYear = new Date().getFullYear()
+  for (const member of familyMembers) {
+    if (!member.birthDate) continue
+    const nextDate = nextBirthdayDate(member.birthDate)
+    if (daysUntil(nextDate) > daysBefore) continue
+    reminders.push({
+      key: `family:${member.id}:${thisYear}`,
+      title: `Cumpleaños: ${member.name}`,
+      body: relativeDayLabel(nextDate),
     })
   }
 

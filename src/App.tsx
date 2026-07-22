@@ -45,6 +45,9 @@ const RoomsPage = lazy(() =>
 const StatsPage = lazy(() =>
   import('@/features/stats/StatsPage').then((m) => ({ default: m.StatsPage })),
 )
+const FamilyPage = lazy(() =>
+  import('@/features/family/FamilyPage').then((m) => ({ default: m.FamilyPage })),
+)
 const DesignShowcasePage = lazy(() =>
   import('@/pages/DesignShowcasePage').then((m) => ({ default: m.DesignShowcasePage })),
 )
@@ -90,6 +93,7 @@ export function App() {
           <Route path="/documentos" element={<DocumentsPage />} />
           <Route path="/mi-hogar" element={<RoomsPage />} />
           <Route path="/estadisticas" element={<StatsPage />} />
+          <Route path="/familia" element={<FamilyPage />} />
           {MODULES.filter(
             (m) =>
               ![
@@ -105,6 +109,7 @@ export function App() {
                 'documentos',
                 'mi-hogar',
                 'estadisticas',
+                'familia',
               ].includes(m.id),
           ).map((m) => (
             <Route

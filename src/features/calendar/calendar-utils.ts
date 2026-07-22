@@ -3,6 +3,7 @@ import { nextWateringDate } from '@/features/plants/plant-utils'
 import type {
   AuraDocument,
   CalendarEvent,
+  FamilyMember,
   MaintenanceRecord,
   PetRecord,
   Plant,
@@ -34,6 +35,8 @@ export interface AgendaItem {
   dateOnly: string
   /** Hora (HH:mm) si el elemento no es de día completo. */
   time?: string
+  /** Si es false, el ítem no abre el editor (se genera automáticamente). */
+  editable?: boolean
 }
 
 export const AGENDA_KIND_META: Record<
@@ -80,6 +83,7 @@ export function buildAgenda(
   vehicleRecords: VehicleRecord[] = [],
   plants: Plant[] = [],
   documents: AuraDocument[] = [],
+  familyMembers: FamilyMember[] = [],
 ): Map<string, AgendaItem[]> {
   const map = new Map<string, AgendaItem[]>()
   const startKey = toDateOnly(start)
@@ -221,6 +225,28 @@ export function buildAgenda(
       subtitle: 'Vencimiento de documento',
       dateOnly: doc.expiryDate,
     })
+  }
+
+  for (const member of familyMembers) {
+    if (!member.birthDate) continue
+    const birthDate = parseLocalDate(member.birthDate)
+    // Recurrencia anual: una ocurrencia por cada año del rango
+    for (let year = start.getFullYear(); year <= end.getFullYear(); year++) {
+      const occurrence = new Date(year, birthDate.getMonth(), birthDate.getDate())
+      const dateOnly = toDateOnly(occurrence)
+      if (!inRange(dateOnly)) continue
+      const age = year - birthDate.getFullYear()
+      const item: AgendaItem = {
+        key: `${member.id}:${year}`,
+        sourceId: member.id,
+        kind: 'cumpleanos',
+        title: `Cumpleaños de ${member.name}`,
+        dateOnly,
+        editable: false,
+      }
+      if (age > 0 && age < 130) item.subtitle = `Cumple ${age} años`
+      push(map, item)
+    }
   }
 
   for (const list of map.values()) {

@@ -12,6 +12,7 @@ import {
   Receipt,
   ShoppingCart,
   Sofa,
+  Users,
   Wrench,
   type LucideIcon,
 } from 'lucide-react'
@@ -126,6 +127,14 @@ export const MODULES: ModuleDef[] = [
     icon: BarChart3,
     description: 'Gráficas de gastos, pagos y actividad del hogar.',
     plannedVersion: 'v0.15',
+  },
+  {
+    id: 'familia',
+    path: '/familia',
+    label: 'Familia y Datos',
+    icon: Users,
+    description: 'CURP, RFC, tipo de sangre y datos importantes de cada quien.',
+    plannedVersion: 'v1.1',
   },
 ]
 

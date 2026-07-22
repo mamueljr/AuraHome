@@ -9,6 +9,7 @@ import { EmptyState } from '@/components/EmptyState'
 import {
   useDocuments,
   useEvents,
+  useFamilyMembers,
   useMaintenance,
   usePetRecords,
   usePlants,
@@ -63,7 +64,7 @@ function AgendaList({
     <ul className="space-y-2">
       {items.map((item) => {
         const meta = AGENDA_KIND_META[item.kind]
-        const editable = EDITABLE_KINDS.has(item.kind)
+        const editable = item.editable ?? EDITABLE_KINDS.has(item.kind)
         return (
           <li key={item.key}>
             <button
@@ -103,6 +104,7 @@ export function CalendarPage() {
   const { data: vehicleRecords = [] } = useVehicleRecords()
   const { data: plants = [] } = usePlants()
   const { data: documents = [] } = useDocuments()
+  const { data: familyMembers = [] } = useFamilyMembers()
   const { createEvent, updateEvent, removeEvent } = useEventMutations()
 
   const today = toDateOnly(new Date())
@@ -146,6 +148,7 @@ export function CalendarPage() {
       vehicleRecords,
       plants,
       documents,
+      familyMembers,
     )
   }, [
     events,
@@ -156,6 +159,7 @@ export function CalendarPage() {
     vehicleRecords,
     plants,
     documents,
+    familyMembers,
     weeks,
     weekDays,
   ])

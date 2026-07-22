@@ -4,6 +4,7 @@ import {
   contactsRepo,
   documentsRepo,
   eventsRepo,
+  familyRepo,
   homeItemsRepo,
   maintenanceRepo,
   petRecordsRepo,
@@ -117,4 +118,8 @@ export function useHomeItems() {
     queryKey: queryKeys.homeItems,
     queryFn: () => homeItemsRepo.getAll(),
   })
+}
+
+export function useFamilyMembers() {
+  return useQuery({ queryKey: queryKeys.family, queryFn: () => familyRepo.getAll() })
 }

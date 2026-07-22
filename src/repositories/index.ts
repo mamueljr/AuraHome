@@ -4,6 +4,7 @@ import type {
   AuraDocument,
   CalendarEvent,
   Contact,
+  FamilyMember,
   HomeItem,
   MaintenanceRecord,
   Pet,
@@ -40,6 +41,7 @@ export const plantsRepo = new BaseRepository<Plant>(db.plants)
 export const documentsRepo = new BaseRepository<AuraDocument>(db.documents)
 export const roomsRepo = new BaseRepository<Room>(db.rooms)
 export const homeItemsRepo = new BaseRepository<HomeItem>(db.homeItems)
+export const familyRepo = new BaseRepository<FamilyMember>(db.familyMembers)
 
 export { db } from '@/repositories/db'
 export { BaseRepository } from '@/repositories/base.repository'

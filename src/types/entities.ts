@@ -276,6 +276,50 @@ export interface HomeItem extends BaseEntity {
   notes?: string
 }
 
+// ---------- Familia y Datos ----------
+
+export const FAMILY_RELATIONS = [
+  'yo',
+  'esposo_esposa',
+  'hijo_hija',
+  'padre_madre',
+  'hermano_hermana',
+  'otro',
+] as const
+export type FamilyRelation = (typeof FAMILY_RELATIONS)[number]
+
+export const BLOOD_TYPES = [
+  'O+',
+  'O-',
+  'A+',
+  'A-',
+  'B+',
+  'B-',
+  'AB+',
+  'AB-',
+] as const
+export type BloodType = (typeof BLOOD_TYPES)[number]
+
+export interface FamilyMember extends BaseEntity {
+  name: string
+  relation: FamilyRelation
+  /** Aparece como cumpleaños recurrente en el calendario. */
+  birthDate?: string
+  /** Fotografía como data-URL JPEG comprimida. */
+  photo?: string
+  curp?: string
+  rfc?: string
+  /** Número de Seguro Social (IMSS/ISSSTE). */
+  nss?: string
+  bloodType?: BloodType
+  allergies?: string
+  phone?: string
+  email?: string
+  /** Aseguradora y número de póliza. */
+  insurancePolicy?: string
+  notes?: string
+}
+
 // ---------- Calendario ----------
 
 export const EVENT_KINDS = ['evento', 'cumpleanos', 'recordatorio'] as const
