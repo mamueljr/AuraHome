@@ -1,6 +1,16 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Droplet, Mail, MoreVertical, Pencil, Phone, Plus, Trash2, Users } from 'lucide-react'
+import {
+  ChevronDown,
+  Droplet,
+  Mail,
+  MoreVertical,
+  Pencil,
+  Phone,
+  Plus,
+  Trash2,
+  Users,
+} from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -11,6 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { CopyButton } from '@/components/CopyButton'
 import { EmptyState } from '@/components/EmptyState'
 import { useFamilyMembers } from '@/hooks/queries'
 import { parseLocalDate } from '@/utils/dates'
@@ -32,9 +43,12 @@ function ageFromBirthDate(birthDate: string): number {
 
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-3 text-sm">
+    <div className="flex items-center justify-between gap-2 text-sm">
       <span className="text-muted-foreground">{label}</span>
-      <span className="font-medium">{value}</span>
+      <span className="flex min-w-0 items-center gap-0.5">
+        <span className="truncate font-medium">{value}</span>
+        <CopyButton value={value} label={label} />
+      </span>
     </div>
   )
 }
@@ -101,6 +115,21 @@ function MemberCard({
                 <Droplet className="size-3" /> {member.bloodType}
               </Badge>
             )}
+            <span
+              role="button"
+              tabIndex={0}
+              aria-label={expanded ? 'Ocultar datos' : 'Mostrar datos'}
+              onClick={(e) => {
+                e.stopPropagation()
+                setExpanded((v) => !v)
+              }}
+              className="flex h-7 shrink-0 items-center gap-1 rounded-md px-2 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-foreground"
+            >
+              {expanded ? 'Ocultar' : 'Mostrar'}
+              <ChevronDown
+                className={`size-3.5 transition-transform ${expanded ? 'rotate-180' : ''}`}
+              />
+            </span>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <span
@@ -146,20 +175,28 @@ function MemberCard({
                         <DetailRow label="Seguro" value={member.insurancePolicy} />
                       )}
                       {member.phone && (
-                        <a
-                          href={`tel:${member.phone}`}
-                          className="flex items-center gap-2 text-sm text-primary"
-                        >
-                          <Phone className="size-3.5" /> {member.phone}
-                        </a>
+                        <div className="flex items-center justify-between gap-2">
+                          <a
+                            href={`tel:${member.phone}`}
+                            className="flex min-w-0 items-center gap-2 text-sm text-primary"
+                          >
+                            <Phone className="size-3.5 shrink-0" />
+                            <span className="truncate">{member.phone}</span>
+                          </a>
+                          <CopyButton value={member.phone} label="teléfono" />
+                        </div>
                       )}
                       {member.email && (
-                        <a
-                          href={`mailto:${member.email}`}
-                          className="flex items-center gap-2 text-sm text-primary"
-                        >
-                          <Mail className="size-3.5" /> {member.email}
-                        </a>
+                        <div className="flex items-center justify-between gap-2">
+                          <a
+                            href={`mailto:${member.email}`}
+                            className="flex min-w-0 items-center gap-2 text-sm text-primary"
+                          >
+                            <Mail className="size-3.5 shrink-0" />
+                            <span className="truncate">{member.email}</span>
+                          </a>
+                          <CopyButton value={member.email} label="correo" />
+                        </div>
                       )}
                       {member.allergies && (
                         <p className="text-sm">

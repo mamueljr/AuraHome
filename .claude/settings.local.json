@@ -51,7 +51,9 @@
       "Bash(python3 -c \"import cairosvg\")",
       "Bash(convert -background none -density 384 /home/emmanuel/Documentos/GitHub/AuraHome/public/icons/favicon.svg -resize 192x192 /tmp/claude-1000/-home-emmanuel-Documentos-GitHub-AuraHome/3f4e0046-c4f7-4892-b812-34d27a70b3b7/scratchpad/test-icon-192.png)",
       "Bash(identify /tmp/claude-1000/-home-emmanuel-Documentos-GitHub-AuraHome/3f4e0046-c4f7-4892-b812-34d27a70b3b7/scratchpad/test-icon-192.png)",
-      "Bash(curl -s http://localhost:5173/_icon-render.html)"
+      "Bash(curl -s http://localhost:5173/_icon-render.html)",
+      "Bash(npx eslint *)",
+      "Bash(npx oxlint *)"
     ]
   }
 }
