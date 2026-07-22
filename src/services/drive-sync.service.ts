@@ -70,9 +70,15 @@ function requestToken(prompt: '' | 'consent'): Promise<string> {
       }
     }, TOKEN_TIMEOUT_MS)
 
+    const knownEmail = useSyncStore.getState().accountEmail
     const client = oauth2.initTokenClient({
       client_id: APP_CONFIG.googleClientId,
       scope: SCOPE,
+      // FedCM: el re-canje silencioso de tokens deja de depender de
+      // cookies de terceros (Chrome las bloquea cada vez más), que era
+      // la causa de que pidiera reconectar en cada recarga.
+      use_fedcm_for_prompt: true,
+      ...(knownEmail ? { hint: knownEmail } : {}),
       callback: (response) => {
         if (settled) return
         settled = true

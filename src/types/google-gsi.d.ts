@@ -20,6 +20,10 @@ interface GoogleOAuth2 {
     scope: string
     callback: (response: GoogleTokenResponse) => void
     error_callback?: (error: { type: string; message?: string }) => void
+    /** Usa FedCM para el re-canje silencioso de tokens (evita depender de cookies de terceros). */
+    use_fedcm_for_prompt?: boolean
+    /** Correo sugerido, para saltar el selector de cuenta cuando ya sabemos cuál es. */
+    hint?: string
   }): GoogleTokenClient
   revoke(token: string, callback?: () => void): void
 }

@@ -12,13 +12,17 @@
     <title>Aura Home</title>
     <style>
       /*
-        Splash crítico: se ve mientras carga el bundle de React. En cuanto
-        createRoot().render() monta la app, reemplaza el contenido de #root
-        y este splash desaparece solo — no requiere JS propio.
+        Splash crítico: se ve mientras carga el bundle de React. Todo el
+        estilo (fondo incluido) vive en .splash-wrap, NO en #root — así,
+        en cuanto createRoot().render() reemplaza el contenido de #root,
+        el splash desaparece por completo y no deja un fondo "pegado"
+        detrás de la app real (que sigue la preferencia de tema elegida
+        por el usuario, no la del sistema operativo).
       */
-      #root {
+      .splash-wrap {
         display: flex;
         min-height: 100dvh;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         background: oklch(0.982 0.005 295);
@@ -39,7 +43,7 @@
         text-align: center;
       }
       @media (prefers-color-scheme: dark) {
-        #root {
+        .splash-wrap {
           background: oklch(0.165 0.015 295);
         }
         .splash-title {
@@ -50,7 +54,7 @@
   </head>
   <body>
     <div id="root">
-      <div style="display: flex; flex-direction: column; align-items: center">
+      <div class="splash-wrap">
         <div class="splash-mark" aria-hidden="true"></div>
         <p class="splash-title">Aura Home</p>
       </div>
